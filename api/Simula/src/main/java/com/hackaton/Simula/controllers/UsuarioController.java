@@ -3,6 +3,7 @@ package com.hackaton.Simula.controllers;
 import com.hackaton.Simula.entities.Usuario;
 import com.hackaton.Simula.enums.Rol;
 import com.hackaton.Simula.services.UsuarioService;
+import com.hackaton.Simula.dto.PerfilUsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,29 @@ public class UsuarioController {
         try {
             Usuario nuevoUsuario = usuarioService.crearUsuario(usuario);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+    
+    @PostMapping("/registro")
+    public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario) {
+        try {
+            // Validar que el email no esté registrado
+            if (usuarioService.obtenerUsuarioPorEmail(usuario.getEmail()).isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "El email ya está registrado"));
+            }
+            
+            // Validar que el usuario no esté registrado
+            if (usuario.getUsuario() != null && usuarioService.obtenerUsuarioPorUsuario(usuario.getUsuario()).isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "El nombre de usuario ya está registrado"));
+            }
+            
+            // Asignar rol por defecto
+            usuario.setRol(Rol.EMPRENDEDOR);
+            
+            Usuario nuevoUsuario = usuarioService.crearUsuario(usuario);
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("mensaje", "Usuario registrado exitosamente", "usuario", nuevoUsuario));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
@@ -97,6 +121,16 @@ public class UsuarioController {
             Integer nuevoNivel = nivelData.get("nivel");
             Usuario usuarioActualizado = usuarioService.actualizarNivel(id, nuevoNivel);
             return ResponseEntity.ok(usuarioActualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+    
+    @GetMapping("/{id}/perfil")
+    public ResponseEntity<?> obtenerPerfilUsuario(@PathVariable Long id) {
+        try {
+            PerfilUsuarioDTO perfil = usuarioService.obtenerPerfilUsuario(id);
+            return ResponseEntity.ok(perfil);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

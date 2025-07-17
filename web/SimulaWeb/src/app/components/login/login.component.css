@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important;
   padding: 20px;
 }
 
@@ -39,9 +39,45 @@
   font-weight: 600;
 }
 
-.login-header p {
-  color: #666;
+/* Logo styles from navbar */
+.navbar-logo {
+  height: 60px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.05);
+}
+
+.login-header h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+.login-subtitle {
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.login-slogan {
+  color: #FFA500;
+  font-size: 0.9rem;
+  font-style: italic;
+  font-weight: 500;
   margin-bottom: 0;
+  line-height: 1.4;
+  text-align: center;
+  padding: 0 10px;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .login-form {
@@ -72,8 +108,8 @@
 
 .form-control:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #FFD700;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
   background-color: white;
 }
 
@@ -92,10 +128,10 @@
 .btn-login {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
   border: none;
   border-radius: 8px;
-  color: white;
+  color: #2c3e50;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -108,7 +144,7 @@
 
 .btn-login:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
 }
 
 .btn-login:disabled {
@@ -142,7 +178,7 @@
 
 .login-footer a {
   text-decoration: none;
-  color: #667eea;
+  color: #FFA500;
   font-weight: 500;
 }
 
@@ -174,7 +210,7 @@
 }
 
 .text-primary {
-  color: #667eea !important;
+  color: #FFA500 !important;
 }
 
 .text-muted {
@@ -183,4 +219,122 @@
 
 .me-2 {
   margin-right: 0.5rem;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 10px;
+  }
+  
+  .login-card {
+    padding: 30px 20px;
+    max-width: 350px;
+  }
+  
+  .navbar-logo {
+    height: 50px;
+    max-width: 150px;
+  }
+  
+  .login-header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .login-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .login-slogan {
+    font-size: 0.85rem;
+    padding: 0 5px;
+  }
+  
+  .form-control {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 25px 15px;
+    max-width: 300px;
+  }
+  
+  .navbar-logo {
+    height: 45px;
+    max-width: 120px;
+  }
+  
+  .login-header h1 {
+    font-size: 1.4rem;
+  }
+  
+  .login-subtitle {
+    font-size: 0.85rem;
+  }
+  
+  .login-slogan {
+    font-size: 0.8rem;
+    padding: 0;
+    line-height: 1.3;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .form-control:focus {
+    border-color: #000;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .btn-login {
+    background: #FFD700;
+    color: #000;
+    border: 2px solid #000;
+  }
+  
+  .login-slogan {
+    color: #000;
+    font-weight: 600;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .navbar-logo {
+    transition: none;
+  }
+  
+  .navbar-logo:hover {
+    transform: none;
+  }
+  
+  .btn-login {
+    transition: none;
+  }
+  
+  .btn-login:hover:not(:disabled) {
+    transform: none;
+  }
+  
+  .login-card {
+    animation: none;
+  }
+}
+
+/* Focus improvements for better accessibility */
+.form-control:focus-visible {
+  outline: 2px solid #FFD700;
+  outline-offset: 2px;
+}
+
+.btn-login:focus-visible {
+  outline: 2px solid #2c3e50;
+  outline-offset: 2px;
+}
+
+.login-footer a:focus-visible {
+  outline: 2px solid #FFA500;
+  outline-offset: 2px;
 }

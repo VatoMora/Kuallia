@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import com.hackaton.Simula.enums.Rol;
 import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "usuarios")
@@ -36,6 +37,21 @@ public class Usuario {
     
     @Column(nullable = false)
     private Integer nivel = 1;
+    
+    // Nuevos campos para registro
+    @Column(columnDefinition = "TEXT")
+    private String fotoBase64;
+    
+    @Column(unique = true)
+    private String usuario;
+    
+    private LocalDate fechaNacimiento;
+    
+    private String estado;
+    
+    private String municipio;
+    
+    private String telefono;
     
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Respuesta> respuestas;
@@ -103,5 +119,54 @@ public class Usuario {
     
     public void setRespuestas(List<Respuesta> respuestas) {
         this.respuestas = respuestas;
+    }
+    
+    // Getters y Setters para nuevos campos
+    public String getFotoBase64() {
+        return fotoBase64;
+    }
+    
+    public void setFotoBase64(String fotoBase64) {
+        this.fotoBase64 = fotoBase64;
+    }
+    
+    public String getUsuario() {
+        return usuario;
+    }
+    
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+    
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+    
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+    
+    public String getEstado() {
+        return estado;
+    }
+    
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    public String getMunicipio() {
+        return municipio;
+    }
+    
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
+    }
+    
+    public String getTelefono() {
+        return telefono;
+    }
+    
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

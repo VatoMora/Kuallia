@@ -1,8 +1,12 @@
 <div class="login-container">
   <div class="login-card">
     <div class="login-header">
+<div class="logo-container">
+    <img src="assets/images/logo2.png" alt="Logo de Simula - Plataforma de emprendimiento" class="navbar-logo">
+  </div>
       <h1>Iniciar Sesión</h1>
-      <p>Accede a tu cuenta en <strong>Simula</strong></p>
+      <p class="login-subtitle">Accede a tu cuenta en <strong>Kuallia</strong></p>
+      <p class="login-slogan" aria-label="Slogan de Kuallia">"Kuallia: Donde cada paso te lleva al progreso real"</p>
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" novalidate aria-label="Formulario de inicio de sesión">
@@ -69,6 +73,16 @@
       <p class="text-muted">
         ¿Olvidaste tu contraseña? <a href="#" class="text-primary" aria-label="Recuperar contraseña olvidada">Recuperar contraseña</a>
       </p>
+      <div class="text-center mt-3">
+        <button 
+          type="button" 
+          class="btn btn-outline-primary btn-register"
+          (click)="goToRegister()"
+          aria-label="Ir a página de registro"
+        >
+          ¿Aún no tienes cuenta? Regístrate
+        </button>
+      </div>
     </div>
   </div>
 </div>

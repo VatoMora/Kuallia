@@ -3,6 +3,7 @@ package com.hackaton.Simula.services;
 import com.hackaton.Simula.entities.Usuario;
 import com.hackaton.Simula.enums.Rol;
 import com.hackaton.Simula.repositories.UsuarioRepository;
+import com.hackaton.Simula.dto.PerfilUsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -24,6 +25,10 @@ public class UsuarioService {
     
     public Optional<Usuario> obtenerUsuarioPorEmail(String email) {
         return usuarioRepository.findByEmail(email);
+    }
+    
+    public Optional<Usuario> obtenerUsuarioPorUsuario(String usuario) {
+        return usuarioRepository.findByUsuario(usuario);
     }
     
     public Usuario crearUsuario(Usuario usuario) {
@@ -78,5 +83,24 @@ public class UsuarioService {
                     return usuarioRepository.save(usuario);
                 })
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+    }
+    
+    public PerfilUsuarioDTO obtenerPerfilUsuario(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+        
+        return new PerfilUsuarioDTO(
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getTelefono(),
+                usuario.getFotoBase64(),
+                usuario.getFechaNacimiento(),
+                usuario.getEstado(),
+                usuario.getMunicipio(),
+                usuario.getRol(),
+                usuario.getSaldo(),
+                usuario.getNivel()
+        );
     }
 }

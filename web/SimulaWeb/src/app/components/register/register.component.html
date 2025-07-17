@@ -1,0 +1,264 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <div class="logo-container">
+        <img src="assets/images/logo2.png" alt="Logo de Simula - Plataforma de emprendimiento" class="navbar-logo">
+      </div>
+      <h1 role="heading" aria-level="1">Crear Cuenta</h1>
+      <p class="register-subtitle" role="text">Únete a <strong>Kuallia</strong> y comienza tu camino emprendedor</p>
+      <p class="register-slogan" role="text" aria-label="Slogan de Kuallia">"Kuallia: Donde cada paso te lleva al progreso real"</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form" novalidate aria-label="Formulario de registro" role="form">
+      
+      <!-- Campo Foto -->
+      <div class="form-group" role="group" aria-labelledby="foto-label">
+        <label for="foto" id="foto-label">Foto de perfil (opcional)</label>
+        <input 
+          type="file" 
+          id="foto" 
+          class="form-control"
+          [class.is-invalid]="submitted && getFieldError('foto')"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          aria-describedby="foto-help foto-error"
+          aria-label="Seleccionar archivo de imagen para foto de perfil"
+        >
+        <small class="form-text text-muted" id="foto-help">Selecciona una imagen para tu perfil. Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 2MB</small>
+        <div *ngIf="getFieldError('foto')" class="invalid-feedback" id="foto-error" role="alert" aria-live="polite">
+          {{ getFieldError('foto') }}
+        </div>
+      </div>
+
+      <!-- Campo Nombre completo -->
+      <div class="form-group" role="group" aria-labelledby="nombre-label">
+        <label for="nombre" id="nombre-label">Nombre completo *</label>
+        <input 
+          type="text" 
+          id="nombre" 
+          formControlName="nombre"
+          class="form-control"
+          [class.is-invalid]="submitted && f['nombre'].errors"
+          placeholder="Tu nombre completo"
+          required
+          aria-describedby="nombre-error"
+          aria-label="Nombre completo, campo obligatorio"
+          autocomplete="name"
+        >
+        <div *ngIf="getFieldError('nombre')" class="invalid-feedback" id="nombre-error" role="alert" aria-live="polite">
+          {{ getFieldError('nombre') }}
+        </div>
+      </div>
+
+      <!-- Campo Usuario -->
+      <div class="form-group" role="group" aria-labelledby="usuario-label">
+        <label for="usuario" id="usuario-label">Usuario *</label>
+        <input 
+          type="text" 
+          id="usuario" 
+          formControlName="usuario"
+          class="form-control"
+          [class.is-invalid]="submitted && f['usuario'].errors"
+          placeholder="Nombre de usuario único"
+          required
+          aria-describedby="usuario-help usuario-error"
+          aria-label="Nombre de usuario, campo obligatorio. Solo letras, números y guiones bajos"
+          autocomplete="username"
+        >
+        <small class="form-text text-muted" id="usuario-help">Solo letras, números y guiones bajos. Mínimo 3 caracteres</small>
+        <div *ngIf="getFieldError('usuario')" class="invalid-feedback" id="usuario-error" role="alert" aria-live="polite">
+          {{ getFieldError('usuario') }}
+        </div>
+      </div>
+
+      <!-- Campo Email -->
+      <div class="form-group" role="group" aria-labelledby="email-label">
+        <label for="email" id="email-label">Correo electrónico *</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="submitted && f['email'].errors"
+          placeholder="ejemplo@correo.com"
+          required
+          aria-describedby="email-error"
+          autocomplete="email"
+          aria-label="Correo electrónico, campo obligatorio"
+        >
+        <div *ngIf="getFieldError('email')" class="invalid-feedback" id="email-error" role="alert" aria-live="polite">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <!-- Campo Fecha de nacimiento -->
+      <div class="form-group" role="group" aria-labelledby="fechaNacimiento-label">
+        <label for="fechaNacimiento" id="fechaNacimiento-label">Fecha de nacimiento *</label>
+        <input 
+          type="date" 
+          id="fechaNacimiento" 
+          formControlName="fechaNacimiento"
+          class="form-control"
+          [class.is-invalid]="submitted && f['fechaNacimiento'].errors"
+          required
+          aria-describedby="fechaNacimiento-help fechaNacimiento-error"
+          aria-label="Fecha de nacimiento, campo obligatorio. Debes ser mayor de 18 años"
+          autocomplete="bday"
+        >
+        <small class="form-text text-muted" id="fechaNacimiento-help">Debes ser mayor de 18 años para registrarte</small>
+        <div *ngIf="getFieldError('fechaNacimiento')" class="invalid-feedback" id="fechaNacimiento-error" role="alert" aria-live="polite">
+          {{ getFieldError('fechaNacimiento') }}
+        </div>
+      </div>
+
+      <!-- Campo Estado -->
+      <div class="form-group" role="group" aria-labelledby="estado-label">
+        <label for="estado" id="estado-label">Estado *</label>
+        <select 
+          id="estado" 
+          formControlName="estado"
+          class="form-control"
+          [class.is-invalid]="submitted && f['estado'].errors"
+          required
+          aria-describedby="estado-error"
+          (change)="onEstadoChange()"
+          aria-label="Estado, campo obligatorio. Selecciona tu estado de residencia"
+          autocomplete="address-level1"
+        >
+          <option value="">Selecciona un estado</option>
+          <option *ngFor="let estado of estados" [value]="estado.nombre">{{ estado.nombre }}</option>
+        </select>
+        <div *ngIf="getFieldError('estado')" class="invalid-feedback" id="estado-error" role="alert" aria-live="polite">
+          {{ getFieldError('estado') }}
+        </div>
+      </div>
+
+      <!-- Campo Municipio -->
+      <div class="form-group" role="group" aria-labelledby="municipio-label">
+        <label for="municipio" id="municipio-label">Municipio *</label>
+        <select 
+          id="municipio" 
+          formControlName="municipio"
+          class="form-control"
+          [class.is-invalid]="submitted && f['municipio'].errors"
+          required
+          aria-describedby="municipio-help municipio-error"
+          [disabled]="!f['estado'].value"
+          [attr.aria-label]="f['estado'].value ? 'Municipio, campo obligatorio. Selecciona tu municipio' : 'Municipio, campo obligatorio. Primero selecciona un estado'"
+          autocomplete="address-level2"
+        >
+          <option value="">{{ f['estado'].value ? 'Selecciona un municipio' : 'Primero selecciona un estado' }}</option>
+          <option *ngFor="let municipio of municipios" [value]="municipio">{{ municipio }}</option>
+        </select>
+        <small class="form-text text-muted" id="municipio-help">{{ f['estado'].value ? 'Selecciona tu municipio' : 'Primero debes seleccionar un estado' }}</small>
+        <div *ngIf="getFieldError('municipio')" class="invalid-feedback" id="municipio-error" role="alert" aria-live="polite">
+          {{ getFieldError('municipio') }}
+        </div>
+      </div>
+
+      <!-- Campo Teléfono -->
+      <div class="form-group" role="group" aria-labelledby="telefono-label">
+        <label for="telefono" id="telefono-label">Teléfono *</label>
+        <input 
+          type="tel" 
+          id="telefono" 
+          formControlName="telefono"
+          class="form-control"
+          [class.is-invalid]="submitted && f['telefono'].errors"
+          placeholder="10 dígitos"
+          required
+          aria-describedby="telefono-help telefono-error"
+          aria-label="Teléfono, campo obligatorio. Formato: 10 dígitos sin espacios"
+          autocomplete="tel"
+          maxlength="10"
+          pattern="[0-9]{10}"
+        >
+        <small class="form-text text-muted" id="telefono-help">Ingresa 10 dígitos sin espacios (ejemplo: 5551234567)</small>
+        <div *ngIf="getFieldError('telefono')" class="invalid-feedback" id="telefono-error" role="alert" aria-live="polite">
+          {{ getFieldError('telefono') }}
+        </div>
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="form-group" role="group" aria-labelledby="password-label">
+        <label for="password" id="password-label">Contraseña *</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="submitted && f['password'].errors"
+          placeholder="Mínimo 6 caracteres"
+          required
+          aria-describedby="password-help password-error"
+          autocomplete="new-password"
+          aria-label="Contraseña, campo obligatorio. Mínimo 6 caracteres"
+          minlength="6"
+        >
+        <small class="form-text text-muted" id="password-help">Mínimo 6 caracteres. Incluye letras, números y símbolos para mayor seguridad</small>
+        <div *ngIf="getFieldError('password')" class="invalid-feedback" id="password-error" role="alert" aria-live="polite">
+          {{ getFieldError('password') }}
+        </div>
+      </div>
+
+      <!-- Campo Confirmar Contraseña -->
+      <div class="form-group" role="group" aria-labelledby="confirmPassword-label">
+        <label for="confirmPassword" id="confirmPassword-label">Confirmar contraseña *</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          formControlName="confirmPassword"
+          class="form-control"
+          [class.is-invalid]="submitted && f['confirmPassword'].errors"
+          placeholder="Confirma tu contraseña"
+          required
+          aria-describedby="confirmPassword-help confirmPassword-error"
+          autocomplete="new-password"
+          aria-label="Confirmar contraseña, campo obligatorio. Debe coincidir con la contraseña anterior"
+        >
+        <small class="form-text text-muted" id="confirmPassword-help">Repite la contraseña para confirmarla</small>
+        <div *ngIf="getFieldError('confirmPassword')" class="invalid-feedback" id="confirmPassword-error" role="alert" aria-live="polite">
+          {{ getFieldError('confirmPassword') }}
+        </div>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div *ngIf="error" class="alert alert-danger" role="alert" aria-live="assertive">
+        <span class="visually-hidden">Error:</span>
+        {{ error }}
+      </div>
+
+      <!-- Mensaje de éxito -->
+      <div *ngIf="success" class="alert alert-success" role="alert" aria-live="polite">
+        <span class="visually-hidden">Éxito:</span>
+        {{ success }}
+      </div>
+
+      <!-- Botón de envío -->
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-register"
+        [disabled]="loading || registerForm.invalid"
+        [attr.aria-busy]="loading"
+        aria-describedby="loading-text"
+        [attr.aria-label]="loading ? 'Registrando usuario, por favor espera' : 'Crear cuenta nueva'"
+      >
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+        <span id="loading-text" aria-live="polite">{{ loading ? 'Registrando...' : 'Crear cuenta' }}</span>
+      </button>
+    </form>
+
+    <div class="register-footer" role="navigation" aria-label="Navegación adicional">
+      <div class="text-center mt-3">
+        <button 
+          type="button" 
+          class="btn btn-link"
+          (click)="goToLogin()"
+          aria-label="Volver a la página de inicio de sesión"
+        >
+          ¿Ya tienes cuenta? Inicia sesión
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

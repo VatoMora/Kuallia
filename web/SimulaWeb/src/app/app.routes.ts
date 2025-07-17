@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
   {
@@ -12,6 +13,10 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'dashboard',
@@ -31,6 +36,11 @@ export const routes: Routes = [
   {
     path: 'historial',
     loadComponent: () => import('./modules/emprendedor/components/emprendedor-historial/emprendedor-historial.component').then(m => m.EmprendedorHistorialComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'perfil',
+    loadComponent: () => import('./components/perfil/perfil.component').then(m => m.PerfilComponent),
     canActivate: [AuthGuard]
   },
   {

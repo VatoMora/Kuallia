@@ -10,6 +10,11 @@ export interface Usuario {
   rol: 'ADMIN' | 'EMPRENDEDOR';
   saldo: number;
   nivel: number;
+  telefono?: string;
+  fotoBase64?: string;
+  fechaNacimiento?: string;
+  estado?: string;
+  municipio?: string;
 }
 
 export interface LoginRequest {
