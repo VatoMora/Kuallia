@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MisNegociosComponent } from './components/mis-negocios/mis-negocios.component';
-import { AgregarNegocioComponent } from './components/agregar-negocio/agregar-negocio.component';
+import { IoemprendoComponent } from './ioEmprendo/ioemprendo.component';
+import { AgregarNegocioComponent } from './agregar-negocio/agregar-negocio.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'mis-negocios',
+    redirectTo: '/ioemprendo/mis-negocios',
     pathMatch: 'full'
   },
   {
     path: 'mis-negocios',
-    component: MisNegociosComponent
+    component: IoemprendoComponent
   },
   {
     path: 'agregar',

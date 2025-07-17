@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NegocioService } from '../../services/negocio.service';
 import { NegocioRequest } from '../../models/negocio.model';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-agregar-negocio',

@@ -4,15 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { NegocioService } from '../../services/negocio.service';
 import { Negocio, TiempoSimulacion } from '../../models/negocio.model';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
-  selector: 'app-mis-negocios',
+  selector: 'app-ioemprendo',
   imports: [CommonModule, FormsModule],
-  templateUrl: './mis-negocios.component.html',
-  styleUrls: ['./mis-negocios.component.css']
+  templateUrl: './ioemprendo.component.html',
+  styleUrls: ['./ioemprendo.component.css']
 })
-export class MisNegociosComponent implements OnInit {
+export class IoemprendoComponent implements OnInit {
   negocios: Negocio[] = [];
   usuarioId: number = 1; // Se obtendrá del AuthService
   loading = false;

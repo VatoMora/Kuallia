@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
-import { AdminRetosComponent } from './components/admin-retos/admin-retos.component';
-import { AdminUsuariosComponent } from './components/admin-usuarios/admin-usuarios.component';
-import { AdminEstadisticasComponent } from './components/admin-estadisticas/admin-estadisticas.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminRetosComponent } from './admin-retos/admin-retos.component';
+import { AdminUsuariosComponent } from './admin-usuarios/admin-usuarios.component';
+import { AdminEstadisticasComponent } from './admin-estadisticas/admin-estadisticas.component';
 
 const routes: Routes = [
   {

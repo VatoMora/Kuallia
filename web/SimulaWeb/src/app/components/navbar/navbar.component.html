@@ -20,47 +20,13 @@
     
     <div class="collapse navbar-collapse" [class.show]="!isCollapsed" id="navbarNav">
       <ul class="navbar-nav me-auto" *ngIf="isAuthenticated()" role="menubar">
-        <li class="nav-item" role="none">
-          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" role="menuitem" aria-label="Ir al panel de control">
-            Dashboard
-          </a>
-        </li>
         
-        <li class="nav-item" *ngIf="isEmprendedor()" role="none">
-          <a class="nav-link" routerLink="/emprendedor" routerLinkActive="active" role="menuitem" aria-label="Ir a mi espacio de emprendedor">
-            Mi Espacio
-          </a>
-        </li>
-        
-        <li class="nav-item" *ngIf="isEmprendedor()" role="none">
-          <a class="nav-link" routerLink="/emprendedor/retos" routerLinkActive="active" role="menuitem" aria-label="Ir a la sección de retos">
-            Retos
-          </a>
-        </li>
-        
-        <li class="nav-item" *ngIf="isEmprendedor()" role="none">
-          <a class="nav-link" routerLink="/emprendedor/capsulas" routerLinkActive="active" role="menuitem" aria-label="Ir a la sección de cápsulas educativas">
-            Cápsulas
-          </a>
-        </li>
-        
-        <li class="nav-item" *ngIf="isEmprendedor()" role="none">
+<li class="nav-item" role="none">
           <a class="nav-link" routerLink="/ioemprendo/mis-negocios" routerLinkActive="active" role="menuitem" aria-label="Ir a iOEmprendo - Mis Negocios">
             iOEmprendo
           </a>
         </li>
         
-        <li class="nav-item" *ngIf="isAdmin()" role="none">
-          <a class="nav-link" routerLink="/admin" routerLinkActive="active" role="menuitem" aria-label="Ir al panel de administración">
-            Administración
-          </a>
-        </li>
-        
-        <li class="nav-item" *ngIf="isAdmin()" role="none">
-          <a class="nav-link" routerLink="/usuarios" routerLinkActive="active" role="menuitem" aria-label="Ir a la gestión de usuarios">
-            Usuarios
-          </a>
-        </li>
       </ul>
       
       <ul class="navbar-nav ms-auto" *ngIf="currentUser" role="menubar">
@@ -85,7 +51,6 @@
             </span></li>
             <li role="separator"><hr class="dropdown-divider"></li>
             <li role="none"><a class="dropdown-item" href="#" routerLink="/perfil" role="menuitem" aria-label="Ir a mi perfil">Mi Perfil</a></li>
-            <li role="none"><a class="dropdown-item" href="#" routerLink="/historial" role="menuitem" aria-label="Ver mi historial">Historial</a></li>
             <li role="separator"><hr class="dropdown-divider"></li>
             <li role="none"><a class="dropdown-item" href="#" (click)="logout()" role="menuitem" aria-label="Cerrar sesión y salir del sistema">Cerrar Sesión</a></li>
           </ul>

@@ -31,13 +31,13 @@ export class LoginComponent implements OnInit {
 
     // Redirigir a dashboard si ya está autenticado
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/dashboard']);
+this.router.navigate(['/ioemprendo/mis-negocios']);
     }
   }
 
   ngOnInit(): void {
-    // Obtener la URL de retorno de los parámetros de consulta o por defecto dashboard
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    // Obtener la URL de retorno de los parámetros de consulta o por defecto ioemprendo
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/ioemprendo/mis-negocios';
   }
 
   // Getter para fácil acceso a los campos del formulario
