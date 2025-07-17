@@ -72,6 +72,33 @@ public class UsuarioController {
         }
     }
     
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
+        try {
+            String email = credentials.get("email");
+            String password = credentials.get("password");
+            
+            if (email == null || password == null) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Email y contraseña son requeridos"));
+            }
+            
+            Usuario usuario = usuarioService.obtenerUsuarioPorEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            
+            // En un sistema real, deberías verificar la contraseña hasheada
+            if (!usuario.getPassword().equals(password)) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Contraseña incorrecta"));
+            }
+            
+            // No devolver la contraseña en la respuesta
+            usuario.setPassword(null);
+            
+            return ResponseEntity.ok(usuario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+    
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         try {

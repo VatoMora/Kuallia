@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/retos")
+@RequestMapping("/api/retos")
 @CrossOrigin(origins = "*")
 public class RetoController {
     
