@@ -59,6 +59,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'ioemprendo',
+    loadChildren: () => import('./modules/ioemprendo/ioemprendo.module').then(m => m.IoemprendoModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: '/login'
   }

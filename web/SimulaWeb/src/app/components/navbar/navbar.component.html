@@ -1,3 +1,6 @@
+<!-- Skip navigation link para accesibilidad -->
+<a class="visually-hidden-focusable" href="#main-content" tabindex="1">Saltar al contenido principal</a>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary" role="navigation" aria-label="Navegación principal">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" routerLink="/" aria-label="Ir a la página principal de Simula">
@@ -38,6 +41,12 @@
         <li class="nav-item" *ngIf="isEmprendedor()" role="none">
           <a class="nav-link" routerLink="/emprendedor/capsulas" routerLinkActive="active" role="menuitem" aria-label="Ir a la sección de cápsulas educativas">
             Cápsulas
+          </a>
+        </li>
+        
+        <li class="nav-item" *ngIf="isEmprendedor()" role="none">
+          <a class="nav-link" routerLink="/ioemprendo/mis-negocios" routerLinkActive="active" role="menuitem" aria-label="Ir a iOEmprendo - Mis Negocios">
+            iOEmprendo
           </a>
         </li>
         

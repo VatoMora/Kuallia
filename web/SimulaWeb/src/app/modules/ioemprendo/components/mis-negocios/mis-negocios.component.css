@@ -1,0 +1,30 @@
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img-top {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table-responsive {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.btn-sm {
+  font-size: 0.775rem;
+}
+
+.alert {
+  border: none;
+  border-radius: 8px;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}

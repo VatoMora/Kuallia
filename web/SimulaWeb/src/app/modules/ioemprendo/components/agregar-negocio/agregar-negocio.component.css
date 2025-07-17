@@ -1,0 +1,45 @@
+.card {
+  border: none;
+  border-radius: 12px;
+}
+
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.form-control {
+  border-radius: 8px;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.img-thumbnail {
+  border-radius: 8px;
+  border: 2px solid #dee2e6;
+}
+
+.alert {
+  border-radius: 8px;
+  border: none;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.invalid-feedback {
+  display: block;
+}
