@@ -1,0 +1,92 @@
+<div class="kpibuddy-container">
+  <div class="header">
+    <h1>KPIBuddy - Inventario</h1>
+    <p class="subtitle">Gestiona tu inventario de productos</p>
+  </div>
+
+
+  <!-- Estadísticas -->
+  <div class="estadisticas" *ngIf="productos.length > 0">
+    <div class="estadistica-card">
+      <i class="fas fa-boxes"></i>
+      <h3>Total Productos</h3>
+      <p class="valor">{{ totalProductos }}</p>
+    </div>
+    <div class="estadistica-card">
+      <i class="fas fa-dollar-sign"></i>
+      <h3>Valor del Inventario</h3>
+      <p class="valor">${{ valorInventario | number: '1.2-2' }}</p>
+    </div>
+    <div class="estadistica-card">
+      <i class="fas fa-chart-line"></i>
+      <h3>Valor Potencial</h3>
+      <p class="valor">${{ valorPotencial | number: '1.2-2' }}</p>
+    </div>
+    <div class="estadistica-card">
+      <i class="fas fa-percentage"></i>
+      <h3>Margen Promedio</h3>
+      <p class="valor">{{ valorInventario > 0 ? ((valorPotencial - valorInventario) / valorInventario * 100) : 0 | number: '1.1-1' }}%</p>
+    </div>
+  </div>
+
+  <!-- Botón agregar producto -->
+  <div class="acciones" *ngIf="productos.length > 0">
+    <button class="btn-primary" (click)="agregarProducto()">
+      <i class="fas fa-plus"></i> Agregar Producto
+    </button>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="alert alert-danger">
+    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+  </div>
+
+  <!-- Cargando -->
+  <div *ngIf="cargando" class="cargando">
+    <i class="fas fa-spinner fa-spin"></i> Cargando inventario...
+  </div>
+
+  <!-- Tabla de productos -->
+  <div class="productos-tabla" *ngIf="!cargando && productos.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Costo</th>
+          <th>Precio</th>
+          <th>Unidades</th>
+          <th>Valor Total</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productos">
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.marca }}</td>
+          <td>{{ producto.modelo }}</td>
+          <td>${{ producto.costo | number: '1.2-2' }}</td>
+          <td>${{ producto.precio | number: '1.2-2' }}</td>
+          <td>{{ producto.unidades }}</td>
+          <td>${{ producto.precio * producto.unidades | number: '1.2-2' }}</td>
+          <td class="acciones">
+            <button class="btn-icon" (click)="editarProducto(producto)" title="Editar">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon btn-danger" (click)="eliminarProducto(producto)" title="Eliminar">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mensaje si no hay productos -->
+  <div *ngIf="!cargando && productos.length === 0" class="no-productos">
+    <i class="fas fa-box-open"></i>
+    <p>No hay productos en tu inventario</p>
+    <button class="btn-primary" (click)="agregarProducto()">Agregar tu primer producto</button>
+  </div>
+</div>

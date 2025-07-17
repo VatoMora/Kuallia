@@ -28,6 +28,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'kpi-buddy',
+    loadChildren: () => import('./components/kpibuddy/kpi-buddy.module').then(m => m.KpiBuddyModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: '/login'
   }
