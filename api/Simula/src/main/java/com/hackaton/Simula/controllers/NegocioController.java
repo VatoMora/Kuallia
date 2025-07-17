@@ -7,17 +7,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/negocios")
-@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class NegocioController {
     
-    private final NegocioService negocioService;
+private final NegocioService negocioService;
+    
+    @Autowired
+    public NegocioController(NegocioService negocioService) {
+        this.negocioService = negocioService;
+    }
     
     @PostMapping
     public ResponseEntity<?> crearNegocio(@RequestBody NegocioRequest request) {

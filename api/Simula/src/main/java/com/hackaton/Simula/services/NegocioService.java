@@ -7,8 +7,8 @@ import com.hackaton.Simula.entities.Negocio;
 import com.hackaton.Simula.entities.Usuario;
 import com.hackaton.Simula.repositories.NegocioRepository;
 import com.hackaton.Simula.repositories.UsuarioRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,11 +16,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class NegocioService {
-    
+
     private final NegocioRepository negocioRepository;
     private final UsuarioRepository usuarioRepository;
+
+    @Autowired
+    public NegocioService(NegocioRepository negocioRepository, UsuarioRepository usuarioRepository) {
+        this.negocioRepository = negocioRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
+    
     
     @Transactional
     public NegocioResponse crearNegocio(NegocioRequest request) {
