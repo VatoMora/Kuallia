@@ -1,0 +1,94 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+      <img src="logo.png" alt="Simula Logo" class="navbar-logo me-2">
+      <strong>Simula</strong>
+    </a>
+    
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      (click)="toggleNavbar()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="navbarNav"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" [class.show]="!isCollapsed" id="navbarNav">
+      <ul class="navbar-nav me-auto" *ngIf="isAuthenticated()">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+            Dashboard
+          </a>
+        </li>
+        
+        <li class="nav-item" *ngIf="isEmprendedor()">
+          <a class="nav-link" routerLink="/emprendedor" routerLinkActive="active">
+            Mi Espacio
+          </a>
+        </li>
+        
+        <li class="nav-item" *ngIf="isEmprendedor()">
+          <a class="nav-link" routerLink="/emprendedor/retos" routerLinkActive="active">
+            Retos
+          </a>
+        </li>
+        
+        <li class="nav-item" *ngIf="isEmprendedor()">
+          <a class="nav-link" routerLink="/emprendedor/capsulas" routerLinkActive="active">
+            Cápsulas
+          </a>
+        </li>
+        
+        <li class="nav-item" *ngIf="isAdmin()">
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+            Administración
+          </a>
+        </li>
+        
+        <li class="nav-item" *ngIf="isAdmin()">
+          <a class="nav-link" routerLink="/usuarios" routerLinkActive="active">
+            Usuarios
+          </a>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav ms-auto" *ngIf="currentUser">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" 
+             href="#" 
+             id="navbarDropdown" 
+             role="button" 
+             data-bs-toggle="dropdown" 
+             aria-expanded="false">
+            <div class="user-avatar me-2">
+              {{ getInitials() }}
+            </div>
+            {{ currentUser.nombre }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><h6 class="dropdown-header">{{ currentUser.email }}</h6></li>
+            <li><span class="dropdown-item-text">
+              <span class="badge bg-secondary">{{ currentUser.rol }}</span>
+            </span></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" routerLink="/perfil">Mi Perfil</a></li>
+            <li><a class="dropdown-item" href="#" routerLink="/historial">Historial</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar Sesión</a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav ms-auto" *ngIf="!currentUser">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">Iniciar Sesión</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/register">Registrarse</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

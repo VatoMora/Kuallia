@@ -1,0 +1,176 @@
+.container-fluid {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.display-6 {
+  font-weight: 700;
+  color: #343a40;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.card-text {
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #42d392 0%, #647eff 100%);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ff9494 0%, #f53b57 100%);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-success {
+  border-color: #42d392;
+  color: #42d392;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.btn-outline-danger {
+  border-color: #ff9494;
+  color: #ff9494;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.btn-outline-secondary {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.input-group {
+  border-radius: 8px;
+}
+
+.form-control {
+  border-radius: 8px 0 0 8px;
+  border-right: none;
+  padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  border-color: #667eea;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6c757d;
+}
+
+.empty-state i {
+  font-size: 5rem;
+  color: #dee2e6;
+  margin-bottom: 1.5rem;
+}
+
+.empty-state h4 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.alert {
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  border-bottom: 1px solid #e9ecef;
+  padding: 1.5rem;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-footer {
+  border-top: 1px solid #e9ecef;
+  padding: 1.5rem;
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fa-sync-alt.fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .col-md-6 {
+    margin-bottom: 1rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .display-6 {
+    font-size: 1.5rem;
+  }
+  
+  .empty-state {
+    padding: 2rem 1rem;
+  }
+  
+  .empty-state i {
+    font-size: 3rem;
+  }
+}

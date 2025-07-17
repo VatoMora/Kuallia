@@ -1,0 +1,160 @@
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="display-6 mb-2">Cápsulas de Aprendizaje</h1>
+          <p class="text-muted">Aprende de casos de éxito y errores comunes en el emprendimiento</p>
+        </div>
+        <button class="btn btn-outline-primary" (click)="refresh()" [disabled]="isLoading">
+          <i class="fas fa-sync-alt" [class.fa-spin]="isLoading"></i>
+          Actualizar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filter Bar -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="input-group">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Buscar cápsulas por título..."
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="searchCapsulas()"
+        >
+        <button class="btn btn-outline-secondary" type="button" (click)="searchCapsulas()">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()" *ngIf="searchTerm">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="btn-group w-100" role="group">
+        <button 
+          type="button" 
+          class="btn" 
+          [class]="filtroTipo === 'TODOS' ? 'btn-primary' : 'btn-outline-primary'"
+          (click)="filterByTipo('TODOS')"
+        >
+          <i class="fas fa-list"></i>
+          Todas
+        </button>
+        <button 
+          type="button" 
+          class="btn" 
+          [class]="filtroTipo === 'EXITO' ? 'btn-success' : 'btn-outline-success'"
+          (click)="filterByTipo('EXITO')"
+        >
+          <i class="fas fa-check-circle"></i>
+          Éxitos
+        </button>
+        <button 
+          type="button" 
+          class="btn" 
+          [class]="filtroTipo === 'ERROR' ? 'btn-danger' : 'btn-outline-danger'"
+          (click)="filterByTipo('ERROR')"
+        >
+          <i class="fas fa-exclamation-triangle"></i>
+          Errores
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  <div class="alert alert-danger" *ngIf="error" role="alert">
+    <i class="fas fa-exclamation-triangle"></i>
+    {{ error }}
+    <button type="button" class="btn-close" (click)="error = ''"></button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="text-center my-5" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando cápsulas...</span>
+    </div>
+    <p class="mt-3 text-muted">Cargando cápsulas...</p>
+  </div>
+
+  <!-- Capsulas Grid -->
+  <div class="row" *ngIf="!isLoading">
+    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let capsula of capsulas">
+      <div class="card h-100 shadow-sm" [class]="capsula.tipo === 'EXITO' ? 'border-success' : 'border-danger'">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <h5 class="card-title">{{ capsula.titulo }}</h5>
+            <span class="badge" [class]="capsula.tipo === 'EXITO' ? 'bg-success' : 'bg-danger'">
+              <i class="fas" [class]="getCapsulaIcon(capsula.tipo)"></i>
+              {{ getCapsulaLabel(capsula.tipo) }}
+            </span>
+          </div>
+          <p class="card-text text-muted">{{ capsula.contenido | slice:0:150 }}{{ capsula.contenido.length > 150 ? '...' : '' }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-muted" [class]="getCapsulaColor(capsula.tipo)">
+              <i class="fas" [class]="getCapsulaIcon(capsula.tipo)"></i>
+              {{ getCapsulaLabel(capsula.tipo) }}
+            </small>
+            <button class="btn btn-sm" [class]="capsula.tipo === 'EXITO' ? 'btn-success' : 'btn-danger'" (click)="abrirCapsula(capsula)">
+              <i class="fas fa-eye"></i>
+              Leer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="text-center my-5" *ngIf="!isLoading && capsulas.length === 0">
+    <div class="empty-state">
+      <i class="fas fa-capsules fa-3x text-muted mb-3"></i>
+      <h4 class="text-muted">No hay cápsulas disponibles</h4>
+      <p class="text-muted">{{ searchTerm ? 'No se encontraron cápsulas con ese término de búsqueda' : 'Aún no se han creado cápsulas' }}</p>
+      <button class="btn btn-outline-primary" (click)="clearSearch()" *ngIf="searchTerm">
+        Ver todas las cápsulas
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para ver cápsula -->
+<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" *ngIf="showModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" [class]="selectedCapsula?.tipo === 'EXITO' ? 'bg-success text-white' : 'bg-danger text-white'">
+        <h5 class="modal-title">
+          <i class="fas" [class]="getCapsulaIcon(selectedCapsula?.tipo || '')"></i>
+          {{ selectedCapsula?.titulo }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="cerrarModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedCapsula">
+          <div class="alert" [class]="selectedCapsula.tipo === 'EXITO' ? 'alert-success' : 'alert-danger'">
+            <div class="d-flex align-items-center">
+              <i class="fas" [class]="getCapsulaIcon(selectedCapsula.tipo)" style="font-size: 1.2rem;"></i>
+              <span class="ms-2 fw-bold">{{ getCapsulaLabel(selectedCapsula.tipo) }}</span>
+            </div>
+          </div>
+          <div class="capsula-content">
+            <p class="lead" [innerHTML]="selectedCapsula.contenido"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal backdrop -->
+<div class="modal-backdrop fade show" *ngIf="showModal" (click)="cerrarModal()"></div>
