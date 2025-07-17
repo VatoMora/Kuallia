@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <!-- Header Section -->
-  <div class="hero-section mb-4">
+  <header class="hero-section mb-4" role="banner">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-8">
@@ -9,17 +9,17 @@
             Bienvenido a tu dashboard de emprendimiento. Aquí puedes ver tu progreso y continuar con los retos.
           </p>
           <p class="lead mb-4" *ngIf="isAdmin()">
-            Panel de administración del sistema Kuallia. Gestiona usuarios, retos y revisa estadísticas.
+            Panel de administración del sistema Simula. Gestiona usuarios, retos y revisa estadísticas.
           </p>
         </div>
         <div class="col-md-4 text-center">
-          <div class="user-avatar" style="width: 120px; height: 120px; font-size: 3rem; margin: 0 auto;">
+          <div class="user-avatar" style="width: 120px; height: 120px; font-size: 3rem; margin: 0 auto;" role="img" [attr.aria-label]="'Avatar de ' + currentUser.nombre">
             {{ currentUser.nombre.charAt(0) }}
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- Loading State -->
   <div *ngIf="loading" class="loading-spinner">
@@ -43,30 +43,30 @@
       <div class="row mb-4">
         <!-- User Stats -->
         <div class="col-md-3">
-          <div class="stats-card">
-            <h5>Mi Nivel</h5>
-            <h2 class="text-primary">{{ currentUser.nivel }}</h2>
+          <div class="stats-card" role="region" aria-labelledby="nivel-heading">
+            <h5 id="nivel-heading">Mi Nivel</h5>
+<h2 class="text-primary" [attr.aria-label]="'Nivel actual: ' + currentUser.nivel">{{ currentUser.nivel }}</h2>
             <p class="text-muted">Nivel actual</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="stats-card">
-            <h5>Mi Saldo</h5>
-            <h2 class="text-success">${{ currentUser.saldo }}</h2>
+          <div class="stats-card" role="region" aria-labelledby="saldo-heading">
+            <h5 id="saldo-heading">Mi Saldo</h5>
+<h2 class="text-success" [attr.aria-label]="'Saldo disponible: ' + currentUser.saldo + ' puntos'">${{ currentUser.saldo }}</h2>
             <p class="text-muted">Puntos disponibles</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="stats-card">
-            <h5>Retos Completados</h5>
-            <h2 class="text-info">{{ progressData.retosResueltos }}</h2>
+          <div class="stats-card" role="region" aria-labelledby="retos-heading">
+            <h5 id="retos-heading">Retos Completados</h5>
+<h2 class="text-info" [attr.aria-label]="'Retos completados: ' + progressData.retosResueltos + ' de ' + progressData.totalRetos">{{ progressData.retosResueltos }}</h2>
             <p class="text-muted">de {{ progressData.totalRetos }} total</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="stats-card">
-            <h5>Precisión</h5>
-            <h2 class="text-warning">{{ historialUsuario?.porcentajeAciertos || 0 }}%</h2>
+          <div class="stats-card" role="region" aria-labelledby="precision-heading">
+            <h5 id="precision-heading">Precisión</h5>
+<h2 class="text-warning" [attr.aria-label]="'Precisión: ' + (historialUsuario?.porcentajeAciertos || 0) + ' por ciento'">{{ historialUsuario?.porcentajeAciertos || 0 }}%</h2>
             <p class="text-muted">Respuestas correctas</p>
           </div>
         </div>
@@ -93,16 +93,16 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="dashboard-card">
-            <h5>Acciones Rápidas</h5>
+          <div class="dashboard-card" role="region" aria-labelledby="acciones-heading">
+            <h5 id="acciones-heading">Acciones Rápidas</h5>
             <div class="d-grid gap-2">
-              <button class="btn btn-primary" routerLink="/retos">
+              <button class="btn btn-primary" routerLink="/retos" aria-label="Navegar a la sección de retos">
                 Ver Retos
               </button>
-              <button class="btn btn-outline-primary" routerLink="/capsulas">
+              <button class="btn btn-outline-primary" routerLink="/capsulas" aria-label="Navegar a la sección de cápsulas educativas">
                 Ver Cápsulas
               </button>
-              <button class="btn btn-outline-secondary" routerLink="/historial">
+              <button class="btn btn-outline-secondary" routerLink="/historial" aria-label="Ver mi historial de actividad">
                 Mi Historial
               </button>
             </div>

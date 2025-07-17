@@ -1,38 +1,42 @@
 <div class="container-fluid py-4">
   <!-- Header -->
-  <div class="row mb-4">
+  <header class="row mb-4" role="banner">
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <h1 class="display-6 mb-2">Retos Disponibles</h1>
           <p class="text-muted">Elige un reto y pon a prueba tus conocimientos emprendedores</p>
         </div>
-        <button class="btn btn-outline-primary" (click)="refresh()" [disabled]="isLoading">
-          <i class="fas fa-sync-alt" [class.fa-spin]="isLoading"></i>
+        <button class="btn btn-outline-primary" (click)="refresh()" [disabled]="isLoading" aria-label="Actualizar lista de retos">
+          <i class="fas fa-sync-alt" [class.fa-spin]="isLoading" aria-hidden="true"></i>
           Actualizar
         </button>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- Search Bar -->
   <div class="row mb-4">
     <div class="col-md-8">
       <div class="input-group">
+        <label for="search-input" class="visually-hidden">Buscar retos por título</label>
         <input 
+          id="search-input"
           type="text" 
           class="form-control" 
           placeholder="Buscar retos por título..."
           [(ngModel)]="searchTerm"
           (keyup.enter)="searchRetos()"
+          aria-describedby="search-help"
         >
-        <button class="btn btn-outline-secondary" type="button" (click)="searchRetos()">
-          <i class="fas fa-search"></i>
+        <button class="btn btn-outline-secondary" type="button" (click)="searchRetos()" aria-label="Buscar retos">
+          <i class="fas fa-search" aria-hidden="true"></i>
         </button>
-        <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()" *ngIf="searchTerm">
-          <i class="fas fa-times"></i>
+        <button class="btn btn-outline-secondary" type="button" (click)="clearSearch()" *ngIf="searchTerm" aria-label="Limpiar búsqueda">
+          <i class="fas fa-times" aria-hidden="true"></i>
         </button>
       </div>
+      <div id="search-help" class="form-text visually-hidden">Presiona Enter para buscar</div>
     </div>
   </div>
 
@@ -52,7 +56,7 @@
   </div>
 
   <!-- Retos Grid -->
-  <div class="row" *ngIf="!isLoading">
+  <div class="row" *ngIf="!isLoading" role="region" aria-label="Lista de retos disponibles">
     <div class="col-md-6 col-lg-4 mb-4" *ngFor="let reto of retos">
       <div class="card h-100 shadow-sm">
         <div class="card-body">
@@ -60,11 +64,11 @@
           <p class="card-text text-muted">{{ reto.descripcion | slice:0:100 }}{{ reto.descripcion.length > 100 ? '...' : '' }}</p>
           <div class="d-flex justify-content-between align-items-center">
             <small class="text-muted">
-              <i class="fas fa-question-circle"></i>
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
               Pregunta múltiple
             </small>
-            <button class="btn btn-primary btn-sm" (click)="abrirReto(reto)">
-              <i class="fas fa-play"></i>
+            <button class="btn btn-primary btn-sm" (click)="abrirReto(reto)" [attr.aria-label]="'Resolver reto: ' + reto.titulo">
+              <i class="fas fa-play" aria-hidden="true"></i>
               Resolver
             </button>
           </div>
@@ -87,26 +91,29 @@
 </div>
 
 <!-- Modal para responder reto -->
-<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" *ngIf="showModal">
+<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" *ngIf="showModal" role="dialog" aria-labelledby="modal-title" aria-describedby="modal-description">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">{{ selectedReto?.titulo }}</h5>
-        <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+        <h5 class="modal-title" id="modal-title">{{ selectedReto?.titulo }}</h5>
+        <button type="button" class="btn-close" (click)="cerrarModal()" aria-label="Cerrar modal"></button>
       </div>
       <div class="modal-body">
         <div *ngIf="selectedReto && !respuestaResult">
-          <p class="lead mb-4">{{ selectedReto.descripcion }}</p>
+          <p class="lead mb-4" id="modal-description">{{ selectedReto.descripcion }}</p>
           
-          <div class="options-container">
+          <fieldset class="options-container">
+            <legend class="visually-hidden">Opciones de respuesta</legend>
             <div class="form-check mb-3">
               <input 
                 class="form-check-input" 
                 type="radio" 
                 id="option1" 
+                name="respuesta"
                 [value]="1" 
                 (change)="selectOption(1)"
                 [checked]="selectedOption === 1"
+                aria-describedby="option1-desc"
               >
               <label class="form-check-label" for="option1">
                 <strong>Opción 1:</strong> {{ selectedReto.opcion1 }}
@@ -118,15 +125,17 @@
                 class="form-check-input" 
                 type="radio" 
                 id="option2" 
+                name="respuesta"
                 [value]="2" 
                 (change)="selectOption(2)"
                 [checked]="selectedOption === 2"
+                aria-describedby="option2-desc"
               >
               <label class="form-check-label" for="option2">
                 <strong>Opción 2:</strong> {{ selectedReto.opcion2 }}
               </label>
             </div>
-          </div>
+          </fieldset>
         </div>
 
         <!-- Resultado de la respuesta -->

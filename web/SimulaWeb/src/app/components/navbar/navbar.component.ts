@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -35,6 +35,30 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   toggleNavbar(): void {
     this.isCollapsed = !this.isCollapsed;
+  }
+
+  // Manejo de teclas para accesibilidad
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKey(event: KeyboardEvent): void {
+    if (!this.isCollapsed) {
+      this.isCollapsed = true;
+    }
+  }
+
+  // Cerrar dropdown al hacer clic fuera
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const dropdown = document.querySelector('.dropdown-menu');
+    const dropdownToggle = document.querySelector('#navbarDropdown');
+    
+    if (dropdown && dropdownToggle && !dropdownToggle.contains(target) && !dropdown.contains(target)) {
+      // Cerrar dropdown si está abierto
+      const bootstrapDropdown = document.querySelector('.dropdown-menu.show');
+      if (bootstrapDropdown) {
+        bootstrapDropdown.classList.remove('show');
+      }
+    }
   }
 
   logout(): void {

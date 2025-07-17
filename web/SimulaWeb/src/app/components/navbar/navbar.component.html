@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" role="navigation" aria-label="Navegación principal">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center" routerLink="/">
-      <img src="logo.png" alt="Simula Logo" class="navbar-logo me-2">
-      <strong>Simula</strong>
+    <a class="navbar-brand d-flex align-items-center" routerLink="/" aria-label="Ir a la página principal de Simula">
+      <img src="logo2.png" alt="Logo de Simula - Plataforma de emprendimiento" class="navbar-logo me-2">
+      <strong>Kuallia</strong>
     </a>
     
     <button 
@@ -11,82 +11,84 @@
       (click)="toggleNavbar()"
       [attr.aria-expanded]="!isCollapsed"
       aria-controls="navbarNav"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      aria-label="Abrir o cerrar menú de navegación">
+      <span class="navbar-toggler-icon" aria-hidden="true"></span>
     </button>
     
     <div class="collapse navbar-collapse" [class.show]="!isCollapsed" id="navbarNav">
-      <ul class="navbar-nav me-auto" *ngIf="isAuthenticated()">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+      <ul class="navbar-nav me-auto" *ngIf="isAuthenticated()" role="menubar">
+        <li class="nav-item" role="none">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" role="menuitem" aria-label="Ir al panel de control">
             Dashboard
           </a>
         </li>
         
-        <li class="nav-item" *ngIf="isEmprendedor()">
-          <a class="nav-link" routerLink="/emprendedor" routerLinkActive="active">
+        <li class="nav-item" *ngIf="isEmprendedor()" role="none">
+          <a class="nav-link" routerLink="/emprendedor" routerLinkActive="active" role="menuitem" aria-label="Ir a mi espacio de emprendedor">
             Mi Espacio
           </a>
         </li>
         
-        <li class="nav-item" *ngIf="isEmprendedor()">
-          <a class="nav-link" routerLink="/emprendedor/retos" routerLinkActive="active">
+        <li class="nav-item" *ngIf="isEmprendedor()" role="none">
+          <a class="nav-link" routerLink="/emprendedor/retos" routerLinkActive="active" role="menuitem" aria-label="Ir a la sección de retos">
             Retos
           </a>
         </li>
         
-        <li class="nav-item" *ngIf="isEmprendedor()">
-          <a class="nav-link" routerLink="/emprendedor/capsulas" routerLinkActive="active">
+        <li class="nav-item" *ngIf="isEmprendedor()" role="none">
+          <a class="nav-link" routerLink="/emprendedor/capsulas" routerLinkActive="active" role="menuitem" aria-label="Ir a la sección de cápsulas educativas">
             Cápsulas
           </a>
         </li>
         
-        <li class="nav-item" *ngIf="isAdmin()">
-          <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+        <li class="nav-item" *ngIf="isAdmin()" role="none">
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active" role="menuitem" aria-label="Ir al panel de administración">
             Administración
           </a>
         </li>
         
-        <li class="nav-item" *ngIf="isAdmin()">
-          <a class="nav-link" routerLink="/usuarios" routerLinkActive="active">
+        <li class="nav-item" *ngIf="isAdmin()" role="none">
+          <a class="nav-link" routerLink="/usuarios" routerLinkActive="active" role="menuitem" aria-label="Ir a la gestión de usuarios">
             Usuarios
           </a>
         </li>
       </ul>
       
-      <ul class="navbar-nav ms-auto" *ngIf="currentUser">
-        <li class="nav-item dropdown">
+      <ul class="navbar-nav ms-auto" *ngIf="currentUser" role="menubar">
+        <li class="nav-item dropdown" role="none">
           <a class="nav-link dropdown-toggle d-flex align-items-center" 
              href="#" 
              id="navbarDropdown" 
              role="button" 
              data-bs-toggle="dropdown" 
-             aria-expanded="false">
-            <div class="user-avatar me-2">
+             aria-expanded="false"
+             aria-haspopup="true"
+             aria-label="Abrir menú de usuario">
+            <div class="user-avatar me-2" aria-hidden="true">
               {{ getInitials() }}
             </div>
             {{ currentUser.nombre }}
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><h6 class="dropdown-header">{{ currentUser.email }}</h6></li>
-            <li><span class="dropdown-item-text">
-              <span class="badge bg-secondary">{{ currentUser.rol }}</span>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" role="menu">
+            <li role="none"><h6 class="dropdown-header" role="heading" aria-level="6">{{ currentUser.email }}</h6></li>
+            <li role="none"><span class="dropdown-item-text" role="menuitem" tabindex="-1">
+              <span class="badge bg-secondary" aria-label="Rol del usuario">{{ currentUser.rol }}</span>
             </span></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" routerLink="/perfil">Mi Perfil</a></li>
-            <li><a class="dropdown-item" href="#" routerLink="/historial">Historial</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar Sesión</a></li>
+            <li role="separator"><hr class="dropdown-divider"></li>
+            <li role="none"><a class="dropdown-item" href="#" routerLink="/perfil" role="menuitem" aria-label="Ir a mi perfil">Mi Perfil</a></li>
+            <li role="none"><a class="dropdown-item" href="#" routerLink="/historial" role="menuitem" aria-label="Ver mi historial">Historial</a></li>
+            <li role="separator"><hr class="dropdown-divider"></li>
+            <li role="none"><a class="dropdown-item" href="#" (click)="logout()" role="menuitem" aria-label="Cerrar sesión y salir del sistema">Cerrar Sesión</a></li>
           </ul>
         </li>
       </ul>
       
-      <ul class="navbar-nav ms-auto" *ngIf="!currentUser">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login">Iniciar Sesión</a>
+      <ul class="navbar-nav ms-auto" *ngIf="!currentUser" role="menubar">
+        <li class="nav-item" role="none">
+          <a class="nav-link" routerLink="/login" role="menuitem" aria-label="Iniciar sesión en tu cuenta">Iniciar Sesión</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/register">Registrarse</a>
+        <li class="nav-item" role="none">
+          <a class="nav-link" routerLink="/register" role="menuitem" aria-label="Crear una nueva cuenta">Registrarse</a>
         </li>
       </ul>
     </div>
