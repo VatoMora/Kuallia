@@ -33,6 +33,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'simulacion/:id',
+    loadComponent: () => import('./components/simulacion/simulacion.component').then(m => m.SimulacionComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: '/login'
   }

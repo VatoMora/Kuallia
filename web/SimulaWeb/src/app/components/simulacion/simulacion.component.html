@@ -1,0 +1,374 @@
+<div class="container-fluid p-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <!-- Encabezado -->
+      <div class="d-flex align-items-center mb-4">
+        <button class="btn btn-outline-secondary me-3" (click)="volverANegocios()">
+          <i class="fas fa-arrow-left"></i> Volver
+        </button>
+        <h1 class="text-primary mb-0">
+          <i class="fas fa-chart-line me-2"></i>
+          Simulador de Estrategias
+        </h1>
+      </div>
+
+      <!-- Indicador de progreso -->
+      <div class="progress mb-4" style="height: 25px;" *ngIf="!mostrandoResultados && !generandoSimulacion">
+        <div class="progress-bar bg-primary" 
+             [style.width.%]="(pasoActual / 3) * 100"
+             role="progressbar"
+             [attr.aria-valuenow]="pasoActual"
+             aria-valuemin="1"
+             aria-valuemax="3">
+          Paso {{ pasoActual }} de 3
+        </div>
+      </div>
+
+      <!-- Contenedor principal -->
+      <div class="card shadow-lg">
+        <div class="card-body p-4">
+          
+          <!-- Formulario de simulación -->
+          <div *ngIf="!mostrandoResultados && !generandoSimulacion">
+            
+            <!-- Paso 1: Tipo de negocio -->
+            <div *ngIf="pasoActual === 1" class="animate__animated animate__fadeIn">
+              <h2 class="h4 mb-4">
+                <i class="fas fa-store me-2"></i>
+                ¿Cuál es tu tipo de negocio?
+              </h2>
+              <div class="row">
+                <div class="col-md-4 mb-3" *ngFor="let tipo of tiposNegocio">
+                  <div class="card h-100 cursor-pointer" 
+                       [class.border-primary]="tipoNegocio === tipo"
+                       [class.bg-light]="tipoNegocio === tipo"
+                       (click)="tipoNegocio = tipo">
+                    <div class="card-body text-center">
+                      <i class="fas fa-3x mb-3"
+                         [class.fa-book]="tipo === 'Papelería'"
+                         [class.fa-shopping-basket]="tipo === 'Abarrotes'"
+                         [class.fa-cut]="tipo === 'Peluquería'"
+                         [class.text-primary]="tipoNegocio === tipo"></i>
+                      <h5 class="card-title">{{ tipo }}</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paso 2: Objetivo de mejora -->
+            <div *ngIf="pasoActual === 2" class="animate__animated animate__fadeIn">
+              <h2 class="h4 mb-4">
+                <i class="fas fa-bullseye me-2"></i>
+                ¿Qué te interesa mejorar hoy?
+              </h2>
+              <div class="list-group">
+                <button type="button" 
+                        class="list-group-item list-group-item-action d-flex align-items-center"
+                        *ngFor="let objetivo of objetivosMejora"
+                        [class.active]="objetivoMejora === objetivo.valor"
+                        (click)="objetivoMejora = objetivo.valor">
+                  <i class="fas fa-2x me-3"
+                     [class.fa-chart-line]="objetivo.valor === 'aumentar_ventas'"
+                     [class.fa-box]="objetivo.valor === 'producto_menor_rotacion'"></i>
+                  <div>
+                    <h5 class="mb-1">{{ objetivo.texto }}</h5>
+                    <p class="mb-0 text-muted">
+                      <span *ngIf="objetivo.valor === 'aumentar_ventas'">
+                        Incrementa tus ingresos con estrategias efectivas
+                      </span>
+                      <span *ngIf="objetivo.valor === 'producto_menor_rotacion'">
+                        Mejora la rotación de productos con bajo movimiento
+                      </span>
+                    </p>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Paso 3: Producto específico -->
+            <div *ngIf="pasoActual === 3" class="animate__animated animate__fadeIn">
+              <h2 class="h4 mb-4">
+                <i class="fas fa-tag me-2"></i>
+                ¿Qué producto quieres vender más?
+              </h2>
+              <div class="row">
+                <div class="col-md-6 mb-3" *ngFor="let producto of productosDisponibles">
+                  <div class="card cursor-pointer"
+                       [class.border-primary]="productoSeleccionado === producto"
+                       [class.bg-light]="productoSeleccionado === producto"
+                       (click)="productoSeleccionado = producto">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-cube fa-2x me-3"
+                           [class.text-primary]="productoSeleccionado === producto"></i>
+                        <h5 class="mb-0">{{ producto }}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botones de navegación -->
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn btn-outline-secondary"
+                      (click)="pasoAnterior()"
+                      [disabled]="pasoActual === 1">
+                <i class="fas fa-chevron-left me-2"></i>
+                Anterior
+              </button>
+              <button class="btn btn-primary"
+                      (click)="siguientePaso()"
+                      [disabled]="!puedeAvanzar">
+                <span *ngIf="pasoActual < 3">
+                  Siguiente
+                  <i class="fas fa-chevron-right ms-2"></i>
+                </span>
+                <span *ngIf="pasoActual === 3">
+                  Generar Simulación
+                  <i class="fas fa-play ms-2"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pantalla de carga -->
+          <div *ngIf="generandoSimulacion" class="text-center py-5">
+            <div class="spinner-grow text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+              <span class="visually-hidden">Generando simulación...</span>
+            </div>
+            <h3 class="text-primary animate__animated animate__pulse animate__infinite">
+              Generando simulación...
+            </h3>
+            <p class="text-muted">Analizando las mejores estrategias para tu negocio</p>
+            <div class="progress mt-3" style="height: 10px;">
+              <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
+                   style="width: 100%"></div>
+            </div>
+          </div>
+
+          <!-- Resultados de la simulación -->
+          <div *ngIf="mostrandoResultados" class="animate__animated animate__fadeIn">
+            <h2 class="h4 mb-4 text-success">
+              <i class="fas fa-check-circle me-2"></i>
+              ¡Simulación completada!
+            </h2>
+            
+            <div class="alert alert-info mb-4">
+              <h5 class="alert-heading">
+                <i class="fas fa-lightbulb me-2"></i>
+                Recomendación personalizada
+              </h5>
+              <p class="mb-0">
+                Basándonos en tu negocio de <strong>{{ tipoNegocio }}</strong> y tu objetivo de 
+                <strong>{{ objetivoMejora === 'aumentar_ventas' ? 'aumentar ventas' : 'mejorar rotación' }}</strong> 
+                para <strong>{{ productoSeleccionado }}</strong>, te recomendamos las siguientes estrategias:
+              </p>
+            </div>
+
+            <!-- Estrategias disponibles -->
+            <h3 class="h5 mb-3">Selecciona una estrategia:</h3>
+            <div class="row mb-4">
+              <div class="col-md-6 mb-3" *ngFor="let estrategia of estrategiasDisponibles">
+                <div class="card h-100 cursor-pointer"
+                     [class.border-success]="estrategiaSeleccionada === estrategia.valor"
+                     [class.bg-light]="estrategiaSeleccionada === estrategia.valor"
+                     (click)="seleccionarEstrategia(estrategia.valor)">
+                  <div class="card-body text-center">
+                    <i class="fa-3x mb-3"
+                       [class.fab]="estrategia.valor === 'campana_whatsapp'"
+                       [class.fa-whatsapp]="estrategia.valor === 'campana_whatsapp'"
+                       [class.fas]="estrategia.valor === 'flyer_digital'"
+                       [class.fa-image]="estrategia.valor === 'flyer_digital'"
+                       [class.text-success]="estrategiaSeleccionada === estrategia.valor"></i>
+                    <h5 class="card-title">{{ estrategia.texto }}</h5>
+                    <p class="card-text text-muted">
+                      <span *ngIf="estrategia.valor === 'campana_whatsapp'">
+                        Alcanza a tus clientes directamente en su WhatsApp
+                      </span>
+                      <span *ngIf="estrategia.valor === 'flyer_digital'">
+                        Crea material visual atractivo para redes sociales
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Selección de personas (solo para WhatsApp) -->
+            <div *ngIf="estrategiaSeleccionada === 'campana_whatsapp'" class="animate__animated animate__fadeIn">
+              <h3 class="h5 mb-3">¿A cuántas personas quieres llegar?</h3>
+              <div class="list-group mb-4">
+                <button type="button"
+                        class="list-group-item list-group-item-action"
+                        *ngFor="let opcion of opcionesPersonas"
+                        [class.active]="cantidadPersonas === opcion.valor"
+                        (click)="seleccionarCantidadPersonas(opcion.valor)">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-users fa-2x me-3"></i>
+                    <div>
+                      <h6 class="mb-0">{{ opcion.texto }}</h6>
+                      <small class="text-muted">
+                        {{ opcion.valor === 'todos' ? 'Envía a todos tus contactos registrados' : 'Selección inteligente de clientes potenciales' }}
+                      </small>
+                    </div>
+                  </div>
+                </button>
+              </div>
+
+              <!-- Lista de personas seleccionadas -->
+              <div *ngIf="personasSeleccionadas.length > 0" class="animate__animated animate__fadeIn">
+                <h4 class="h6 mb-3">Personas seleccionadas ({{ personasSeleccionadas.length }}):</h4>
+                <div class="table-responsive">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Tipo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let persona of personasSeleccionadas.slice(0, 10)">
+                        <td>{{ persona.nombre }}</td>
+                        <td>{{ persona.telefono }}</td>
+                        <td>{{ persona.email || 'N/A' }}</td>
+                        <td>
+                          <span class="badge" 
+                                [class.bg-success]="persona.esCliente"
+                                [class.bg-secondary]="!persona.esCliente">
+                            {{ persona.esCliente ? 'Cliente' : 'Prospecto' }}
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p *ngIf="personasSeleccionadas.length > 10" class="text-muted text-center">
+                    ... y {{ personasSeleccionadas.length - 10 }} personas más
+                  </p>
+                </div>
+
+                <!-- Selección de plantilla de mensaje -->
+                <div class="mt-4" *ngIf="!mostrarPrevisualizacion && !enviandoMensajes && !mensajesEnviados">
+                  <h4 class="h6 mb-3">Selecciona una plantilla de mensaje:</h4>
+                  <div class="row">
+                    <div class="col-md-6 mb-3" *ngFor="let plantilla of plantillas">
+                      <div class="card cursor-pointer"
+                           [class.border-primary]="plantillaSeleccionada?.id === plantilla.id"
+                           [class.bg-light]="plantillaSeleccionada?.id === plantilla.id"
+                           (click)="seleccionarPlantilla(plantilla)">
+                        <div class="card-body">
+                          <h6 class="card-title">
+                            <i class="fas fa-comment-dots me-2"></i>
+                            {{ plantilla.nombre }}
+                          </h6>
+                          <p class="card-text small text-muted">
+                            {{ plantilla.contenido.substring(0, 50) }}...
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Previsualización del mensaje -->
+                <div *ngIf="mostrarPrevisualizacion" class="mt-4 animate__animated animate__fadeIn">
+                  <div class="card border-success">
+                    <div class="card-header bg-success text-white">
+                      <h5 class="mb-0">
+                        <i class="fab fa-whatsapp me-2"></i>
+                        Previsualización del mensaje
+                      </h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="whatsapp-preview">
+                        <pre class="mb-0">{{ mensajePersonalizado }}</pre>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div class="d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary me-2" (click)="cancelarEnvio()">
+                          <i class="fas fa-times me-2"></i>
+                          Cancelar
+                        </button>
+                        <button class="btn btn-success" (click)="confirmarEnvio()">
+                          <i class="fas fa-paper-plane me-2"></i>
+                          Enviar Mensajes
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Botón de ejecutar campaña -->
+                <div class="text-center mt-4" *ngIf="!mostrarPrevisualizacion && !enviandoMensajes && !mensajesEnviados">
+                  <button class="btn btn-success btn-lg" 
+                          (click)="ejecutarCampana()"
+                          [disabled]="!plantillaSeleccionada">
+                    <i class="fas fa-rocket me-2"></i>
+                    Ejecutar Campaña
+                  </button>
+                </div>
+
+                <!-- Pantalla de carga de WhatsApp -->
+                <div *ngIf="enviandoMensajes" class="text-center mt-4 animate__animated animate__fadeIn">
+                  <div class="mb-3">
+                    <i class="fab fa-whatsapp fa-spin fa-4x text-success"></i>
+                  </div>
+                  <h4 class="text-success">Enviando mensajes por WhatsApp...</h4>
+                  <div class="progress mt-3" style="height: 20px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                         style="width: 100%"></div>
+                  </div>
+                  <p class="text-muted mt-2">Por favor espera mientras se envían los mensajes</p>
+                </div>
+
+                <!-- Confirmación de envío -->
+                <div *ngIf="mensajesEnviados" class="mt-4 animate__animated animate__fadeIn">
+                  <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">
+                      <i class="fas fa-check-circle me-2"></i>
+                      ¡Mensajes enviados exitosamente!
+                    </h4>
+                    <p>Tu mensaje "{{ mensajePersonalizado.substring(0, 50) }}..." se ha enviado a las siguientes personas:</p>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-4 mb-2" *ngFor="let persona of personasSeleccionadas.slice(0, 6)">
+                        <i class="fas fa-user me-1"></i>
+                        {{ persona.nombre }}
+                      </div>
+                    </div>
+                    <p *ngIf="personasSeleccionadas.length > 6" class="text-muted mt-2">
+                      ... y {{ personasSeleccionadas.length - 6 }} personas más
+                    </p>
+                    <hr>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <p class="mb-0">Redirigiendo a tus negocios en <strong>{{ segundosRestantes }}</strong> segundos...</p>
+                      <div class="spinner-border spinner-border-sm text-success" role="status">
+                        <span class="visually-hidden">Redirigiendo...</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Opción de flyer digital -->
+            <div *ngIf="estrategiaSeleccionada === 'flyer_digital'" class="animate__animated animate__fadeIn text-center">
+              <div class="alert alert-warning">
+                <i class="fas fa-info-circle me-2"></i>
+                La generación de flyers digitales estará disponible próximamente
+              </div>
+              <button class="btn btn-secondary" (click)="volverANegocios()">
+                Volver a mis negocios
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

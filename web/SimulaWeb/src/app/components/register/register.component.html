@@ -222,6 +222,28 @@
         </div>
       </div>
 
+      <!-- Check de aceptación de aviso de privacidad -->
+      <div class="form-group" role="group" aria-labelledby="privacy-label">
+        <div class="form-check">
+          <input 
+            type="checkbox" 
+            id="privacy"
+            formControlName="privacy"
+            class="form-check-input"
+            [class.is-invalid]="submitted && getFieldError('privacy')"
+            required
+            aria-describedby="privacy-error"
+            aria-label="Acepto el aviso de privacidad, campo obligatorio"
+          >
+          <label class="form-check-label" for="privacy" id="privacy-label">
+            Acepto el <a href="#" (click)="$event.preventDefault(); showPrivacyNotice();">aviso de privacidad</a>
+          </label>
+          <div *ngIf="getFieldError('privacy')" class="invalid-feedback" id="privacy-error" role="alert" aria-live="polite">
+            {{ getFieldError('privacy') }}
+          </div>
+        </div>
+      </div>
+
       <!-- Mensaje de error -->
       <div *ngIf="error" class="alert alert-danger" role="alert" aria-live="assertive">
         <span class="visually-hidden">Error:</span>

@@ -83,7 +83,8 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       municipio: ['', [Validators.required]],
       telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
+      confirmPassword: ['', [Validators.required]],
+      privacy: [false, [Validators.requiredTrue]]
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -175,6 +176,61 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!password || !confirmPassword) return null;
     
     return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+}
+
+  showPrivacyNotice(): void {
+    const privacyContent = `
+AVISO DE PRIVACIDAD - KUALLIA
+
+Fecha de última actualización: ${new Date().toLocaleDateString('es-MX')}
+
+1. RESPONSABLE DE SUS DATOS PERSONALES
+Kuallia, con domicilio en [Tu dirección], es responsable del uso y protección de sus datos personales.
+
+2. DATOS PERSONALES QUE RECABAMOS
+Para las finalidades señaladas en el presente aviso de privacidad, podemos recabar sus datos personales de las siguientes categorías:
+- Datos de identificación: nombre completo, nombre de usuario, fotografía
+- Datos de contacto: correo electrónico, teléfono
+- Datos demográficos: fecha de nacimiento, estado y municipio de residencia
+- Datos de acceso: contraseña (encriptada)
+
+3. FINALIDADES DEL TRATAMIENTO
+Sus datos personales serán utilizados para:
+- Crear y administrar su cuenta de usuario
+- Brindarle acceso a los servicios de la plataforma
+- Comunicarnos con usted sobre actualizaciones, promociones y servicios
+- Mejorar nuestros servicios y experiencia de usuario
+- Cumplir con obligaciones legales
+
+4. PROTECCIÓN DE SUS DATOS
+Implementamos medidas de seguridad administrativas, técnicas y físicas para proteger sus datos personales contra daño, pérdida, alteración, destrucción o uso no autorizado.
+
+5. DERECHOS ARCO
+Usted tiene derecho a:
+- Acceder a sus datos personales
+- Rectificar sus datos personales cuando sean inexactos o incompletos
+- Cancelar sus datos personales
+- Oponerse al tratamiento de sus datos personales
+
+6. TRANSFERENCIA DE DATOS
+No compartimos, vendemos ni transferimos sus datos personales a terceros sin su consentimiento, salvo las excepciones previstas en la Ley.
+
+7. USO DE COOKIES
+Utilizamos cookies para mejorar su experiencia en nuestra plataforma y analizar el uso del sitio.
+
+8. CAMBIOS AL AVISO DE PRIVACIDAD
+Nos reservamos el derecho de efectuar modificaciones o actualizaciones al presente aviso de privacidad.
+
+9. CONTACTO
+Para cualquier duda sobre el tratamiento de sus datos personales, puede contactarnos en: privacidad@kuallia.com
+
+Al hacer clic en "Acepto", usted reconoce haber leído y aceptado los términos de este Aviso de Privacidad.
+`;
+    
+    // Crear un mejor diálogo (por ahora usar alert, pero puedes implementar un modal más adelante)
+    if (confirm(privacyContent + '\n\n¿Desea aceptar el aviso de privacidad?')) {
+      this.registerForm.patchValue({ privacy: true });
+    }
   }
 
   onFileSelected(event: any): void {
@@ -235,8 +291,9 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       fotoBase64: this.fotoBase64
     };
     
-    // Remover confirmPassword del objeto a enviar
+    // Remover confirmPassword y privacy del objeto a enviar
     delete formData.confirmPassword;
+    delete formData.privacy;
 
     this.http.post(`${this.apiUrl}/usuarios/registro`, formData)
       .pipe(
@@ -290,6 +347,9 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       if (control.errors['underage']) {
         return 'Debes ser mayor de 18 años para registrarte';
       }
+      if (control.errors['requiredTrue']) {
+        return 'Debes aceptar el aviso de privacidad para registrarte';
+      }
     }
     
     if (field === 'confirmPassword' && this.registerForm.errors?.['passwordMismatch']) {
@@ -316,7 +376,8 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       municipio: 'Municipio',
       telefono: 'Teléfono',
       password: 'Contraseña',
-      confirmPassword: 'Confirmar contraseña'
+      confirmPassword: 'Confirmar contraseña',
+      privacy: 'Aviso de privacidad'
     };
     return labels[field] || field;
   }
