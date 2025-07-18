@@ -1,0 +1,68 @@
+<!-- Botón flotante del chatbot -->
+<div class="chatbot-button" (click)="toggleChat()" [class.hidden]="isOpen">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+</div>
+
+<!-- Ventana del chat -->
+<div class="chatbot-container" [class.open]="isOpen">
+  <!-- Header -->
+  <div class="chatbot-header">
+    <div class="header-content">
+      <div class="bot-avatar">
+        <span>🤖</span>
+      </div>
+      <div class="bot-info">
+        <h3>Kuallio</h3>
+        <span class="status">En línea</span>
+      </div>
+    </div>
+    <button class="close-button" (click)="toggleChat()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mensajes -->
+  <div class="chatbot-messages">
+    <div *ngFor="let message of messages" 
+         class="message" 
+         [class.user-message]="message.isUser"
+         [class.bot-message]="!message.isUser">
+      <div class="message-bubble">
+        {{ message.text }}
+      </div>
+      <div class="message-time">
+        {{ message.timestamp | date:'short' }}
+      </div>
+    </div>
+    
+    <!-- Indicador de escritura -->
+    <div *ngIf="isTyping" class="typing-indicator">
+      <div class="typing-bubble">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="chatbot-input">
+    <input 
+      type="text" 
+      [(ngModel)]="userInput" 
+      (keypress)="onKeyPress($event)"
+      placeholder="Escribe tu pregunta..."
+      class="input-field">
+    <button (click)="sendMessage()" class="send-button" [disabled]="!userInput.trim()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+</div>

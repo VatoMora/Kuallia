@@ -1,5 +1,9 @@
-<a href="#main-content" class="skip-link">Saltar al contenido principal</a>
-<app-navbar *ngIf="isAuthenticated()"></app-navbar>
-<main id="main-content" role="main">
-  <router-outlet></router-outlet>
-</main>
+<div class="app-container">
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+  <app-navbar *ngIf="isAuthenticated()"></app-navbar>
+  <main id="main-content" role="main">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
+  <app-chatbot></app-chatbot>
+</div>
