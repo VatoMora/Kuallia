@@ -33,6 +33,16 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'aprende',
+    loadComponent: () => import('./components/aprende/aprende.component').then(m => m.AprendeComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'marketplace',
+    loadChildren: () => import('./components/marketplace.module').then(m => m.MarketplaceModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'simulacion/:id',
     loadComponent: () => import('./components/simulacion/simulacion.component').then(m => m.SimulacionComponent),
     canActivate: [AuthGuard]

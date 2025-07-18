@@ -1,0 +1,44 @@
+<div class="producto-detalle-container" *ngIf="producto">
+  <div class="producto-imagenes">
+    <img [src]="producto.imagen" [alt]="producto.nombre" class="imagen-principal">
+  </div>
+  
+  <div class="producto-info">
+    <h1>{{ producto.nombre }}</h1>
+    <p class="descripcion">{{ producto.descripcion }}</p>
+    
+    <div class="precio-container">
+      <span class="precio-actual">${{ calcularPrecioConDescuento(producto.precio, producto.descuento) }}</span>
+      <span class="precio-original" *ngIf="producto.descuento">${{ producto.precio }}</span>
+      <span class="descuento" *ngIf="producto.descuento">-{{ producto.descuento }}%</span>
+    </div>
+    
+    <div class="cantidad-container">
+      <label>Cantidad:</label>
+      <button (click)="disminuirCantidad()" [disabled]="cantidad <= 1">-</button>
+      <input type="number" [(ngModel)]="cantidad" min="1" [max]="producto.stock">
+      <button (click)="aumentarCantidad()" [disabled]="cantidad >= producto.stock">+</button>
+    </div>
+    
+    <button class="btn-agregar-carrito" (click)="agregarAlCarrito()">
+      Agregar al Carrito
+    </button>
+    
+    <div class="stock-info">
+      <span *ngIf="producto.stock > 0">Stock disponible: {{ producto.stock }} unidades</span>
+      <span *ngIf="producto.stock === 0" class="sin-stock">Sin stock</span>
+    </div>
+  </div>
+</div>
+
+<div class="productos-relacionados" *ngIf="productosRelacionados.length > 0">
+  <h2>Productos Relacionados</h2>
+  <div class="productos-grid">
+    <div *ngFor="let prod of productosRelacionados" class="producto-card">
+      <img [src]="prod.imagen" [alt]="prod.nombre">
+      <h3>{{ prod.nombre }}</h3>
+      <p class="precio">${{ calcularPrecioConDescuento(prod.precio, prod.descuento) }}</p>
+      <a [routerLink]="['/marketplace/producto', prod.id]">Ver detalle</a>
+    </div>
+  </div>
+</div>
