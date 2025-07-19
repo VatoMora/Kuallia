@@ -1,0 +1,157 @@
+<!-- Modal de Pago -->
+<div class="modal-overlay" [class.show]="isOpen" (click)="close()">
+  <div class="modal-container" [class.show]="isOpen" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>Completa tu pago</h2>
+      <button class="close-btn" (click)="close()" [disabled]="isProcessing">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Contenido del Modal -->
+    <div class="modal-body">
+      
+      <!-- Formulario de Pago -->
+      <div class="payment-form" [class.hide]="paymentCompleted">
+        
+        <!-- Total a Pagar -->
+        <div class="payment-total">
+          <span>Total a pagar:</span>
+          <span class="amount">${{ total | number:'1.2-2' }}</span>
+        </div>
+
+        <!-- Formulario -->
+        <form (ngSubmit)="processPayment()">
+          
+          <!-- Número de Tarjeta -->
+          <div class="form-group">
+            <label for="cardNumber">Número de tarjeta</label>
+            <div class="input-with-icon">
+              <input 
+                type="text" 
+                id="cardNumber"
+                [(ngModel)]="cardNumber"
+                name="cardNumber"
+                (input)="formatCardNumber($event)"
+                maxlength="19"
+                placeholder="1234 5678 9012 3456"
+                [class.error]="errors.cardNumber"
+                [disabled]="isProcessing"
+              />
+              <i class="card-icon" [class]="'fab fa-cc-' + getCardType()"></i>
+            </div>
+            <span class="error-message" *ngIf="errors.cardNumber">{{ errors.cardNumber }}</span>
+          </div>
+
+          <!-- Nombre del Titular -->
+          <div class="form-group">
+            <label for="cardHolder">Nombre del titular</label>
+            <input 
+              type="text" 
+              id="cardHolder"
+              [(ngModel)]="cardHolder"
+              name="cardHolder"
+              placeholder="Como aparece en la tarjeta"
+              [class.error]="errors.cardHolder"
+              [disabled]="isProcessing"
+            />
+            <span class="error-message" *ngIf="errors.cardHolder">{{ errors.cardHolder }}</span>
+          </div>
+
+          <!-- Fecha y CVV -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="expiryDate">Fecha de vencimiento</label>
+              <input 
+                type="text" 
+                id="expiryDate"
+                [(ngModel)]="expiryDate"
+                name="expiryDate"
+                (input)="formatExpiryDate($event)"
+                maxlength="5"
+                placeholder="MM/YY"
+                [class.error]="errors.expiryDate"
+                [disabled]="isProcessing"
+              />
+              <span class="error-message" *ngIf="errors.expiryDate">{{ errors.expiryDate }}</span>
+            </div>
+
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <div class="cvv-wrapper">
+                <input 
+                  type="text" 
+                  id="cvv"
+                  [(ngModel)]="cvv"
+                  name="cvv"
+                  maxlength="3"
+                  placeholder="123"
+                  [class.error]="errors.cvv"
+                  [disabled]="isProcessing"
+                />
+                <i class="fas fa-question-circle cvv-info"></i>
+              </div>
+              <span class="error-message" *ngIf="errors.cvv">{{ errors.cvv }}</span>
+            </div>
+          </div>
+
+          <!-- Botón de Pago -->
+          <button 
+            type="submit" 
+            class="pay-button" 
+            [disabled]="isProcessing"
+            [class.processing]="isProcessing"
+          >
+            <span *ngIf="!isProcessing">
+              <i class="fas fa-lock"></i>
+              Pagar ${{ total | number:'1.2-2' }}
+            </span>
+            <span *ngIf="isProcessing" class="processing-content">
+              <i class="fas fa-spinner fa-spin"></i>
+              Procesando pago...
+            </span>
+          </button>
+
+          <!-- Información de Seguridad -->
+          <div class="security-info">
+            <i class="fas fa-shield-alt"></i>
+            <span>Tu información está protegida con encriptación SSL</span>
+          </div>
+        </form>
+      </div>
+
+      <!-- Animación de Éxito -->
+      <div class="success-animation" [class.show]="paymentCompleted">
+        <div class="success-content">
+          
+          <!-- Círculo animado con checkmark -->
+          <div class="success-checkmark">
+            <div class="check-icon">
+              <span class="icon-line line-tip"></span>
+              <span class="icon-line line-long"></span>
+              <div class="icon-circle"></div>
+              <div class="icon-fix"></div>
+            </div>
+          </div>
+
+          <!-- Mensaje de éxito -->
+          <h3 class="success-title">¡Pago completado con éxito!</h3>
+          <p class="success-message">
+            Tu compra ha sido procesada correctamente.<br>
+            Recibirás un correo con los detalles de tu pedido.
+          </p>
+
+          <!-- Efecto de onda verde -->
+          <div class="ripple-effect" [class.active]="showSuccessAnimation">
+            <div class="ripple"></div>
+            <div class="ripple"></div>
+            <div class="ripple"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

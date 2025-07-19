@@ -295,12 +295,25 @@ export class MarketplaceService {
 
     if (itemExistente) {
       itemExistente.cantidad += cantidad;
-      itemExistente.subtotal = itemExistente.cantidad * itemExistente.producto.precio;
-    } else {
+      // Si la cantidad llega a 0 o menos, eliminar del carrito
+      if (itemExistente.cantidad <= 0) {
+        this.quitarDelCarrito(producto.id);
+        return;
+      }
+      // Calcular precio con descuento si existe
+      const precioUnitario = producto.descuento 
+        ? producto.precio * (1 - producto.descuento / 100) 
+        : producto.precio;
+      itemExistente.subtotal = itemExistente.cantidad * precioUnitario;
+    } else if (cantidad > 0) {
+      // Solo agregar si la cantidad es positiva
+      const precioUnitario = producto.descuento 
+        ? producto.precio * (1 - producto.descuento / 100) 
+        : producto.precio;
       carritoActual.push({
         producto,
         cantidad,
-        subtotal: producto.precio * cantidad
+        subtotal: precioUnitario * cantidad
       });
     }
 
