@@ -26,6 +26,9 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedFile: File | null = null;
   fotoBase64 = '';
   
+  // Modal de privacidad
+  showPrivacyModal = false;
+  
   private destroy$ = new Subject<void>();
   private announcer: HTMLElement | null = null;
   
@@ -179,58 +182,43 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 }
 
   showPrivacyNotice(): void {
-    const privacyContent = `
-AVISO DE PRIVACIDAD - KUALLIA
+    this.showPrivacyModal = true;
+    // Prevenir scroll del body cuando el modal está abierto
+    document.body.style.overflow = 'hidden';
+  }
+  
+  closePrivacyModal(): void {
+    this.showPrivacyModal = false;
+    // Restaurar scroll del body
+    document.body.style.overflow = '';
+  }
+  
+  acceptPrivacy(): void {
+    this.registerForm.patchValue({ privacy: true });
+    this.closePrivacyModal();
+    this.announceSuccess('Aviso de privacidad aceptado');
+  }
+  
+  // Método para obtener el contenido del aviso de privacidad
+  getPrivacyContent(): string {
+    return `AVISO DE PRIVACIDAD - KUALLIA
 
 Fecha de última actualización: ${new Date().toLocaleDateString('es-MX')}
 
-1. RESPONSABLE DE SUS DATOS PERSONALES
-Kuallia, con domicilio en [Tu dirección], es responsable del uso y protección de sus datos personales.
+Aviso de privacidad
+En "kuallia" nos comprometemos a proteger su privacidad por el uso y recopilación de datos, por lo que, al utilizar los servicios de la plataforma, usted acepta las prácticas de recopilación y uso de información descrita en este aviso de privacidad. 
 
-2. DATOS PERSONALES QUE RECABAMOS
-Para las finalidades señaladas en el presente aviso de privacidad, podemos recabar sus datos personales de las siguientes categorías:
-- Datos de identificación: nombre completo, nombre de usuario, fotografía
-- Datos de contacto: correo electrónico, teléfono
-- Datos demográficos: fecha de nacimiento, estado y municipio de residencia
-- Datos de acceso: contraseña (encriptada)
+La información personal que recabemos, incluye nombre completo, correo electrónico y teléfono. La cual será utilizada para el funcionamiento de kuallia, para poder proporcionar las consultas o servicios que usted haya solicitado y/o autorizado. 
 
-3. FINALIDADES DEL TRATAMIENTO
-Sus datos personales serán utilizados para:
-- Crear y administrar su cuenta de usuario
-- Brindarle acceso a los servicios de la plataforma
-- Comunicarnos con usted sobre actualizaciones, promociones y servicios
-- Mejorar nuestros servicios y experiencia de usuario
-- Cumplir con obligaciones legales
+El titular o su representante legal podrá solicitar en cualquier momento el acceso, rectificación, cancelación u oposición, respecto de los datos personales que le conciernen. 
 
-4. PROTECCIÓN DE SUS DATOS
-Implementamos medidas de seguridad administrativas, técnicas y físicas para proteger sus datos personales contra daño, pérdida, alteración, destrucción o uso no autorizado.
+Le sugerimos revisar periódicamente este aviso de privacidad para estar informado de como protegemos la información que nos proporciona, su uso continuo constituye su aceptación a este aviso y de cualquier actualización posterior. 
 
-5. DERECHOS ARCO
-Usted tiene derecho a:
-- Acceder a sus datos personales
-- Rectificar sus datos personales cuando sean inexactos o incompletos
-- Cancelar sus datos personales
-- Oponerse al tratamiento de sus datos personales
+En "kuallia" respetamos su privacidad, para cualquier duda, sugerencia, comentario o actualización de sus datos, envié un correo electrónico a:
 
-6. TRANSFERENCIA DE DATOS
-No compartimos, vendemos ni transferimos sus datos personales a terceros sin su consentimiento, salvo las excepciones previstas en la Ley.
+equipo.kuallia&#64;mail.com
 
-7. USO DE COOKIES
-Utilizamos cookies para mejorar su experiencia en nuestra plataforma y analizar el uso del sitio.
-
-8. CAMBIOS AL AVISO DE PRIVACIDAD
-Nos reservamos el derecho de efectuar modificaciones o actualizaciones al presente aviso de privacidad.
-
-9. CONTACTO
-Para cualquier duda sobre el tratamiento de sus datos personales, puede contactarnos en: privacidad@kuallia.com
-
-Al hacer clic en "Acepto", usted reconoce haber leído y aceptado los términos de este Aviso de Privacidad.
-`;
-    
-    // Crear un mejor diálogo (por ahora usar alert, pero puedes implementar un modal más adelante)
-    if (confirm(privacyContent + '\n\n¿Desea aceptar el aviso de privacidad?')) {
-      this.registerForm.patchValue({ privacy: true });
-    }
+Al hacer clic en "Acepto", usted reconoce haber leído y aceptado los términos de este Aviso de Privacidad.`;
   }
 
   onFileSelected(event: any): void {
@@ -424,5 +412,9 @@ Al hacer clic en "Acepto", usted reconoce haber leído y aceptado los términos 
   
   goToLogin(): void {
     this.router.navigate(['/login']);
+  }
+  
+  getCurrentDate(): string {
+    return new Date().toLocaleDateString('es-MX');
   }
 }

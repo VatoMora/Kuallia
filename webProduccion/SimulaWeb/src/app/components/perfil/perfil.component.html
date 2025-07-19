@@ -1,0 +1,124 @@
+<main class="container mt-4" role="main" aria-label="Página de perfil de usuario">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow" role="region" aria-labelledby="profile-title">
+        <div class="card-header bg-primary text-white">
+          <h1 id="profile-title" class="mb-0 h3">Mi Perfil</h1>
+        </div>
+        <div class="card-body">
+          <!-- Loading state -->
+          <div *ngIf="isLoading" class="text-center py-4" role="status" aria-live="polite" aria-label="Cargando información del perfil">
+            <div class="spinner-border text-primary" role="status" aria-hidden="true">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-3 text-muted" id="loading-text">Cargando información del perfil...</p>
+          </div>
+
+          <!-- Error state -->
+          <div *ngIf="error" class="alert alert-danger" role="alert" aria-live="assertive">
+            <i class="fa fa-exclamation-triangle me-2" aria-hidden="true"></i>
+            <span class="visually-hidden">Error: </span>
+            {{ error }}
+          </div>
+
+          <!-- Profile content -->
+          <div *ngIf="perfil && !isLoading" class="row" role="region" aria-label="Información del perfil">
+            <!-- Profile picture section -->
+            <div class="col-md-4 text-center mb-4" role="region" aria-label="Foto y datos básicos del usuario">
+              <div class="profile-picture-container">
+                <div *ngIf="perfil.fotoBase64; else defaultAvatar" class="profile-picture">
+                  <img [src]="'data:image/jpeg;base64,' + perfil.fotoBase64" 
+                       [alt]="'Foto de perfil de ' + perfil.nombre" 
+                       class="img-fluid rounded-circle shadow"
+                       role="img">
+                </div>
+                <ng-template #defaultAvatar>
+                  <div class="default-avatar" 
+                       [attr.aria-label]="'Avatar con iniciales de ' + perfil.nombre + ': ' + getInitials()"
+                       role="img">
+                    {{ getInitials() }}
+                  </div>
+                </ng-template>
+              </div>
+              <h2 class="mt-3 mb-1 h4" id="user-name">{{ perfil.nombre }}</h2>
+              <span class="badge bg-secondary fs-6" 
+                    [attr.aria-label]="'Rol del usuario: ' + getRolLabel(perfil.rol)"
+                    role="status">
+                {{ getRolLabel(perfil.rol) }}
+              </span>
+            </div>
+
+            <!-- Profile information -->
+            <div class="col-md-8" role="region" aria-label="Información detallada del perfil">
+              <div class="row">
+                <!-- Personal Information -->
+                <div class="col-12 mb-4" role="region" aria-labelledby="personal-info-title">
+                  <h3 id="personal-info-title" class="text-primary border-bottom pb-2 h5">Información Personal</h3>
+                  <div class="row" role="list" aria-label="Datos personales">
+                    <div class="col-sm-6 mb-3" role="listitem">
+                      <label class="form-label fw-bold" for="email-value">Correo Electrónico:</label>
+                      <p class="mb-0" id="email-value" [attr.aria-label]="'Correo electrónico: ' + perfil.email">{{ perfil.email }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-3" role="listitem">
+                      <label class="form-label fw-bold" for="phone-value">Teléfono:</label>
+                      <p class="mb-0" id="phone-value" [attr.aria-label]="'Teléfono: ' + (perfil.telefono || 'No especificado')">{{ perfil.telefono || 'No especificado' }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-3" role="listitem">
+                      <label class="form-label fw-bold" for="birth-date-value">Fecha de Nacimiento:</label>
+                      <p class="mb-0" id="birth-date-value" [attr.aria-label]="'Fecha de nacimiento: ' + formatDate(perfil.fechaNacimiento)">{{ formatDate(perfil.fechaNacimiento) }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-3" role="listitem">
+                      <label class="form-label fw-bold" for="state-value">Estado:</label>
+                      <p class="mb-0" id="state-value" [attr.aria-label]="'Estado: ' + (perfil.estado || 'No especificado')">{{ perfil.estado || 'No especificado' }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-3" role="listitem">
+                      <label class="form-label fw-bold" for="municipality-value">Municipio:</label>
+                      <p class="mb-0" id="municipality-value" [attr.aria-label]="'Municipio: ' + (perfil.municipio || 'No especificado')">{{ perfil.municipio || 'No especificado' }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Gaming Information -->
+                <div class="col-12" role="region" aria-labelledby="gaming-info-title">
+                  <h3 id="gaming-info-title" class="text-primary border-bottom pb-2 h5">Información de Juego</h3>
+                  <div class="row" role="list" aria-label="Datos de juego y progreso">
+                    <div class="col-sm-6 mb-3" role="listitem">
+                      <label class="form-label fw-bold" for="level-section">Nivel:</label>
+                      <div class="d-flex align-items-center" id="level-section">
+                        <span class="badge bg-success fs-6 me-2" 
+                              [attr.aria-label]="'Nivel actual: ' + perfil.nivel"
+                              role="status">
+                          {{ perfil.nivel }}
+                        </span>
+                        <div class="progress flex-grow-1" 
+                             style="height: 20px;"
+                             role="progressbar" 
+                             [attr.aria-valuenow]="perfil.nivel" 
+                             aria-valuemin="0" 
+                             aria-valuemax="10"
+                             [attr.aria-label]="'Progreso de nivel: ' + perfil.nivel + ' de 10'">
+                          <div class="progress-bar" 
+                               [style.width.%]="(perfil.nivel * 10)"
+                               [attr.aria-label]="'Progreso: ' + (perfil.nivel * 10) + ' por ciento'">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 mb-3" role="listitem">
+                      <label class="form-label fw-bold" for="balance-value">Saldo:</label>
+                      <p class="mb-0 text-success fw-bold fs-5" 
+                         id="balance-value"
+                         [attr.aria-label]="'Saldo actual: ' + perfil.saldo.toLocaleString('es-ES', {minimumFractionDigits: 2}) + ' pesos'">
+                        ${{ perfil.saldo.toLocaleString('es-ES', {minimumFractionDigits: 2}) }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

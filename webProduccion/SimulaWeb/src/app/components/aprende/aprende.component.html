@@ -1,0 +1,67 @@
+<div class="container mt-4">
+  <!-- Header de la página -->
+  <div class="page-header">
+    <h1><i class="bi bi-mortarboard-fill me-2"></i>Aprende y Emprende</h1>
+    <p>Desarrolla las habilidades necesarias para hacer crecer tu negocio en el mundo digital</p>
+  </div>
+
+  <!-- Grid de cursos -->
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let curso of cursos; let i = index">
+      <div class="card h-100">
+        <div class="card-header" [ngClass]="getColorTema(curso.tema)">
+          <i class="bi" [ngClass]="curso.icono"></i>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Lección {{ i + 1 }}: {{ curso.titulo }}</h5>
+          <p class="card-text">{{ curso.descripcion }}</p>
+          
+          <!-- Metadatos del curso -->
+          <div class="course-meta">
+            <span><i class="bi bi-clock"></i> {{ curso.duracion }}</span>
+            <span><i class="bi bi-tag"></i> {{ curso.tema }}</span>
+          </div>
+          
+          <!-- Calificación -->
+          <div class="rating">
+            <ng-container *ngFor="let estrella of getEstrellas(curso.calificacion); let j = index">
+              <i class="bi" [ngClass]="{
+                'bi-star-fill text-warning': estrella === 1,
+                'bi-star text-muted': estrella === 0,
+                'bi-star-half text-warning': estrella === 0.5
+              }"></i>
+            </ng-container>
+            <span>({{ curso.calificacion }})</span>
+          </div>
+          
+          <!-- Progreso -->
+          <div class="mb-3">
+            <div class="progress">
+              <div class="progress-bar" 
+                   [ngClass]="{
+                     'bg-success': curso.progreso === 100,
+                     'bg-info': curso.progreso > 0 && curso.progreso < 100,
+                     'bg-secondary': curso.progreso === 0
+                   }"
+                   role="progressbar" 
+                   [style.width.%]="curso.progreso" 
+                   [attr.aria-valuenow]="curso.progreso" 
+                   aria-valuemin="0" 
+                   aria-valuemax="100">
+              </div>
+            </div>
+            <p class="progress-text">{{ getProgresoTexto(curso.progreso) }}</p>
+          </div>
+          
+          <!-- Botón de acción -->
+          <button class="btn btn-primary w-100" 
+                  (click)="iniciarCurso(curso)"
+                  [disabled]="curso.progreso === 100">
+            <i class="bi bi-play-circle me-2"></i>
+            {{ curso.progreso === 0 ? 'Comenzar' : curso.progreso === 100 ? 'Completado' : 'Continuar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

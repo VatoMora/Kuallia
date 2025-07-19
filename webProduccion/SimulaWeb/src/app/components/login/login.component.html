@@ -1,0 +1,88 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+<div class="logo-container">
+    <img src="assets/images/logo2.png" alt="Logo de Simula - Plataforma de emprendimiento" class="navbar-logo">
+  </div>
+      <h1>Iniciar Sesión</h1>
+      <p class="login-subtitle">Accede a tu cuenta en <strong>Kuallia</strong></p>
+      <p class="login-slogan" aria-label="Slogan de Kuallia">"Kuallia: Donde cada paso te lleva al progreso real"</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" novalidate aria-label="Formulario de inicio de sesión">
+      <!-- Campo Email -->
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="submitted && f['email'].errors"
+          placeholder="ejemplo@correo.com"
+          required
+          aria-describedby="email-error"
+          [attr.aria-invalid]="submitted && f['email'].errors"
+          autocomplete="email"
+        >
+        <div *ngIf="getFieldError('email')" class="invalid-feedback" id="email-error" role="alert" aria-live="polite">
+          {{ getFieldError('email') }}
+        </div>
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="form-group">
+        <label for="password">Contraseña *</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="submitted && f['password'].errors"
+          placeholder="Ingresa tu contraseña"
+          required
+          aria-describedby="password-error"
+          [attr.aria-invalid]="submitted && f['password'].errors"
+          autocomplete="current-password"
+        >
+        <div *ngIf="getFieldError('password')" class="invalid-feedback" id="password-error" role="alert" aria-live="polite">
+          {{ getFieldError('password') }}
+        </div>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div *ngIf="error" class="alert alert-danger" role="alert" aria-live="assertive">
+        <span class="visually-hidden">Error:</span>
+        {{ error }}
+      </div>
+
+      <!-- Botón de envío -->
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-login"
+        [disabled]="loading"
+        [attr.aria-busy]="loading"
+        aria-describedby="loading-text"
+      >
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+        <span id="loading-text">{{ loading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}</span>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p class="text-muted">
+        ¿Olvidaste tu contraseña? <a href="#" class="text-primary" aria-label="Recuperar contraseña olvidada">Recuperar contraseña</a>
+      </p>
+      <div class="text-center mt-3">
+        <button 
+          type="button" 
+          class="btn btn-outline-primary btn-register"
+          (click)="goToRegister()"
+          aria-label="Ir a página de registro"
+        >
+          ¿Aún no tienes cuenta? Regístrate
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

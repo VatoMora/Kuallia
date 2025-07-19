@@ -1,0 +1,96 @@
+<div class="carrito-container">
+  <div class="carrito-header">
+    <h2>Carrito de Compras</h2>
+    <button *ngIf="carritoItems.length > 0" class="btn-vaciar" (click)="vaciarCarrito()">
+      <i class="material-icons">delete_sweep</i>
+      Vaciar carrito
+    </button>
+  </div>
+
+  <div *ngIf="carritoItems.length === 0" class="carrito-vacio">
+    <i class="material-icons">shopping_cart</i>
+    <p>El carrito está vacío</p>
+    <a routerLink="/marketplace" class="btn-continuar-comprando">
+      Continuar comprando
+    </a>
+  </div>
+
+  <div *ngIf="carritoItems.length > 0" class="carrito-contenido">
+    <div class="carrito-items">
+      <div *ngFor="let item of carritoItems" class="carrito-item">
+        <img [src]="item.producto.imagen" [alt]="item.producto.nombre" class="producto-imagen">
+        
+        <div class="producto-info">
+          <h3>{{ item.producto.nombre }}</h3>
+          <p class="vendedor">Por: {{ item.producto.vendedor.nombre }}</p>
+          
+          <div class="precio-info">
+            <span *ngIf="item.producto.descuento" class="precio-original">
+              ${{ item.producto.precio | number:'1.2-2' }}
+            </span>
+            <span class="precio-actual">
+              ${{ calcularPrecioConDescuento(item.producto.precio, item.producto.descuento) | number:'1.2-2' }}
+            </span>
+            <span *ngIf="item.producto.descuento" class="descuento-tag">
+              -{{ item.producto.descuento }}%
+            </span>
+          </div>
+        </div>
+
+        <div class="cantidad-controls">
+          <button class="btn-cantidad" (click)="disminuirCantidad(item)" [disabled]="item.cantidad === 1">
+            <i class="material-icons">remove</i>
+          </button>
+          <span class="cantidad">{{ item.cantidad }}</span>
+          <button class="btn-cantidad" (click)="aumentarCantidad(item)">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+
+        <div class="subtotal">
+          <p class="subtotal-label">Subtotal</p>
+          <p class="subtotal-precio">${{ item.subtotal | number:'1.2-2' }}</p>
+        </div>
+
+        <button class="btn-eliminar" (click)="quitarDelCarrito(item.producto.id)">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+    </div>
+
+    <div class="carrito-resumen">
+      <h3>Resumen del pedido</h3>
+      
+      <div class="resumen-items">
+        <div *ngFor="let item of carritoItems" class="resumen-item">
+          <span>{{ item.producto.nombre }} ({{ item.cantidad }})</span>
+          <span>${{ item.subtotal | number:'1.2-2' }}</span>
+        </div>
+      </div>
+
+      <div class="resumen-total">
+        <span>Total:</span>
+        <span class="total-precio">${{ total | number:'1.2-2' }}</span>
+      </div>
+
+      <div class="acciones">
+        <a routerLink="/marketplace" class="btn-secundario">
+          <i class="material-icons">arrow_back</i>
+          Seguir comprando
+        </a>
+        <button class="btn-principal" (click)="abrirModalPago()">
+          <i class="material-icons">shopping_cart_checkout</i>
+          Proceder al pago
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de pago -->
+<app-modal-pago 
+  *ngIf="mostrarModalPago"
+  [total]="total"
+  (cerrarModal)="cerrarModalPago()"
+  (pagoCompletado)="procesarPagoCompletado()">
+</app-modal-pago>

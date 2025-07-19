@@ -1,0 +1,157 @@
+<div class="container-fluid p-4">
+  <!-- Contenido principal -->
+  <main id="main-content" role="main" aria-labelledby="page-title">
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h1 id="page-title" class="text-primary">
+            <i class="fas fa-store me-2" aria-hidden="true"></i>
+            Mis Negocios
+          </h1>
+          <button class="btn btn-primary" (click)="agregarNegocio()" aria-label="Agregar nuevo negocio">
+            <i class="fas fa-plus me-2" aria-hidden="true"></i>
+            Agregar Negocio
+          </button>
+        </div>
+
+        <!-- Estado de carga -->
+        <div *ngIf="loading" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="mt-2">Cargando negocios...</p>
+        </div>
+
+        <!-- Mensaje de error -->
+        <div *ngIf="error" class="alert alert-danger" role="alert">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          {{ error }}
+        </div>
+
+        <!-- Lista de negocios -->
+        <div *ngIf="!loading && !error" class="row">
+          <div *ngIf="negocios.length === 0" class="col-12">
+            <div class="alert alert-info text-center" role="alert">
+              <i class="fas fa-info-circle me-2"></i>
+              No tienes negocios creados aún. ¡Crea tu primer negocio haciendo clic en "Agregar Negocio"!
+            </div>
+          </div>
+
+          <div *ngFor="let negocio of negocios; let i = index" class="col-lg-6 col-xl-4 mb-4">
+            <article class="card h-100 shadow-sm" [attr.aria-labelledby]="'negocio-title-' + i">
+              <!-- Imagen del negocio -->
+              <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                   style="height: 200px;">
+                <img *ngIf="negocio.fotoBase64 && editingNegocioId !== negocio.id" 
+                     [src]="'data:image/jpeg;base64,' + negocio.fotoBase64" 
+                     [alt]="'Imagen del negocio ' + negocio.nombre"
+                     class="img-fluid" 
+                     style="max-height: 100%; max-width: 100%; object-fit: cover;">
+                <div *ngIf="editingNegocioId !== negocio.id && !negocio.fotoBase64" class="text-muted" role="img" [attr.aria-label]="'Sin imagen para el negocio ' + negocio.nombre">
+                  <i class="fas fa-store fa-3x" aria-hidden="true"></i>
+                  <p class="mt-2">Sin imagen</p>
+                </div>
+
+                <div *ngIf="editingNegocioId === negocio.id">
+                  <label class="form-label">Cargar nueva imagen</label>
+                  <input type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control" aria-label="Seleccione una nueva imagen para el negocio">
+                </div>
+              </div>
+
+              <div class="card-body">
+                <ng-container *ngIf="editingNegocioId !== negocio.id; else editMode">
+                  <h2 [id]="'negocio-title-' + i" class="card-title h5">{{ negocio.nombre }}</h2>
+                  <p class="card-text">
+                    <strong>Giro:</strong> {{ negocio.giro }}<br>
+                    <strong>Fecha de creación:</strong> {{ negocio.fechaCreacion | date:'dd/MM/yyyy' }}
+                  </p>
+                </ng-container>
+
+                <ng-template #editMode>
+                  <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del negocio</label>
+                    <input type="text" id="nombre" class="form-control" [(ngModel)]="editingNegocio.nombre" placeholder="Nombre del negocio" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="giro" class="form-label">Giro del negocio</label>
+                    <input type="text" id="giro" class="form-control" [(ngModel)]="editingNegocio.giro" placeholder="Giro del negocio" required>
+                  </div>
+                </ng-template>
+
+
+                <!-- Productos relacionados -->
+                <div *ngIf="negocio.productos && negocio.productos.length > 0" class="mb-3">
+                  <h3 class="text-secondary h6">Productos ({{ negocio.productos.length || 0 }}):</h3>
+                  <div class="table-responsive">
+                    <table class="table table-sm" [attr.aria-label]="'Tabla de productos del negocio ' + negocio.nombre">
+                      <thead>
+                        <tr>
+                          <th scope="col">Producto</th>
+                          <th scope="col">Marca</th>
+                          <th scope="col">Costo</th>
+                          <th scope="col">Precio</th>
+                          <th scope="col">Unidades</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let producto of negocio.productos">
+                          <td>{{ producto.nombre }}</td>
+                          <td>{{ producto.marca }}</td>
+                          <td>${{ producto.costo | number:'1.2-2' }}</td>
+                          <td>${{ producto.precio | number:'1.2-2' }}</td>
+                          <td>{{ producto.unidades }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div *ngIf="!negocio.productos || negocio.productos.length === 0" class="mb-3">
+                  <p class="text-muted">
+                    <i class="fas fa-info-circle me-2" aria-hidden="true"></i>
+                    No hay productos registrados para este negocio.
+                  </p>
+                </div>
+              </div>
+
+              <div *ngIf="editingNegocioId === negocio.id" class="card-footer">
+                <button class="btn btn-success btn-sm me-2" (click)="guardarEdicion(negocio)">Guardar</button>
+                <button class="btn btn-secondary btn-sm" (click)="cancelarEdicion()">Cancelar</button>
+              </div>
+
+              <!-- Acciones -->
+              <div class="card-footer bg-transparent">
+                <div class="d-flex justify-content-between" role="group" [attr.aria-label]="'Acciones para el negocio ' + negocio.nombre">
+                  <button class="btn btn-outline-primary btn-sm" 
+                          (click)="editarNegocio(negocio)" 
+                          [disabled]="deletingNegocioId === negocio.id"
+                          [attr.aria-label]="'Editar negocio ' + negocio.nombre">
+                    <i class="fas fa-edit me-1" aria-hidden="true"></i>
+                    Editar
+                  </button>
+                  <button class="btn btn-outline-success btn-sm" 
+                          (click)="simularNegocio(negocio)" 
+                          [disabled]="deletingNegocioId === negocio.id"
+                          [attr.aria-label]="'Simular negocio ' + negocio.nombre">
+                    <i class="fas fa-play me-1" aria-hidden="true"></i>
+                    Simular
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm" 
+                          (click)="eliminarNegocio(negocio)" 
+                          [disabled]="deletingNegocioId === negocio.id"
+                          [attr.aria-label]="'Eliminar negocio ' + negocio.nombre">
+                    <span *ngIf="deletingNegocioId === negocio.id" class="spinner-border spinner-border-sm me-1" role="status">
+                      <span class="visually-hidden">Eliminando...</span>
+                    </span>
+                    <i *ngIf="deletingNegocioId !== negocio.id" class="fas fa-trash me-1" aria-hidden="true"></i>
+                    {{ deletingNegocioId === negocio.id ? 'Eliminando...' : 'Eliminar' }}
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

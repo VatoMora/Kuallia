@@ -1,0 +1,100 @@
+<!-- Skip navigation link para accesibilidad -->
+<a class="visually-hidden-focusable" href="#main-content" tabindex="1">Saltar al contenido principal</a>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" role="navigation" aria-label="Navegación principal">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/" aria-label="Ir a la página principal de Simula">
+      <img src="logo2.png" alt="Logo de Simula - Plataforma de emprendimiento" class="navbar-logo me-2">
+      <strong>Kuallia</strong>
+    </a>
+    
+    <!-- Icono de Realidad Virtual -->
+    <a class="vr-nav-link-left ms-3" routerLink="/realidad-virtual" routerLinkActive="active" 
+       aria-label="Ir a Realidad Virtual - Experiencias inmersivas"
+       data-bs-toggle="tooltip" data-bs-placement="bottom" title="Realidad Virtual"
+       *ngIf="isAuthenticated()">
+      <i class="bi bi-headset-vr vr-nav-icon-left"></i>
+    </a>
+    
+    <button
+      class="navbar-toggler" 
+      type="button" 
+      (click)="toggleNavbar()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="navbarNav"
+      aria-label="Abrir o cerrar menú de navegación">
+      <span class="navbar-toggler-icon" aria-hidden="true"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" [class.show]="!isCollapsed" id="navbarNav">
+      <ul class="navbar-nav me-auto" *ngIf="isAuthenticated()" role="menubar">
+        
+<li class="nav-item" role="none">
+          <a class="nav-link" routerLink="/ioemprendo/mis-negocios" routerLinkActive="active" role="menuitem" aria-label="Ir a iOEmprendo - Mis Negocios">
+            Simular
+          </a>
+        </li>
+        
+        <li class="nav-item" role="none">
+          <a class="nav-link" routerLink="/aprende" routerLinkActive="active" role="menuitem" aria-label="Ir a Aprende - Cursos de emprendimiento">
+            <i class="bi bi-mortarboard-fill me-1"></i>
+            Aprende
+          </a>
+        </li>
+        
+        <li class="nav-item" role="none">
+          <a class="nav-link" routerLink="/marketplace" routerLinkActive="active" role="menuitem" aria-label="Ir al Marketplace - Compra y vende entre negocios">
+            <i class="bi bi-shop me-1"></i>
+            MarketKuallia
+          </a>
+        </li>
+        
+        <li class="nav-item" role="none">
+          <a class="nav-link vr-nav-link" routerLink="/realidad-virtual" routerLinkActive="active" role="menuitem" 
+             aria-label="Ir a Realidad Virtual - Experiencias inmersivas"
+             data-bs-toggle="tooltip" data-bs-placement="bottom" title="Realidad Virtual">
+            <i class="bi bi-headset-vr vr-nav-icon"></i>
+          </a>
+        </li>
+        
+      </ul>
+      
+      <ul class="navbar-nav ms-auto" *ngIf="currentUser" role="menubar">
+        <li class="nav-item dropdown" role="none">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" 
+             href="#" 
+             id="navbarDropdown" 
+             role="button" 
+             data-bs-toggle="dropdown" 
+             aria-expanded="false"
+             aria-haspopup="true"
+             aria-label="Abrir menú de usuario">
+            <div class="user-avatar me-2" aria-hidden="true">
+              {{ getInitials() }}
+            </div>
+            {{ currentUser.nombre }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" role="menu">
+            <li role="none"><h6 class="dropdown-header" role="heading" aria-level="6">{{ currentUser.email }}</h6></li>
+            <li role="none"><span class="dropdown-item-text" role="menuitem" tabindex="-1">
+              <span class="badge bg-secondary" aria-label="Rol del usuario">{{ currentUser.rol }}</span>
+            </span></li>
+            <li role="separator"><hr class="dropdown-divider"></li>
+            <li role="none"><a class="dropdown-item" href="#" routerLink="/perfil" role="menuitem" aria-label="Ir a mi perfil">Mi Perfil</a></li>
+            <li role="separator"><hr class="dropdown-divider"></li>
+            <li role="none"><a class="dropdown-item" href="#" (click)="logout()" role="menuitem" aria-label="Cerrar sesión y salir del sistema">Cerrar Sesión</a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav ms-auto" *ngIf="!currentUser" role="menubar">
+        <li class="nav-item" role="none">
+          <a class="nav-link" routerLink="/login" role="menuitem" aria-label="Iniciar sesión en tu cuenta">Iniciar Sesión</a>
+        </li>
+        <li class="nav-item" role="none">
+          <a class="nav-link" routerLink="/register" role="menuitem" aria-label="Crear una nueva cuenta">Registrarse</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
