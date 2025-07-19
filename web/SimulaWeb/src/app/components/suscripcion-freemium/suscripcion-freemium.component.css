@@ -1,0 +1,322 @@
+.subscription-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Header Styles */
+.subscription-header {
+  margin-bottom: 3rem;
+}
+
+.subscription-header h1 {
+  background: linear-gradient(45deg, #007bff, #6610f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Feature Cards */
+.feature-card {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #007bff, #6610f2);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.feature-icon i {
+  color: white !important;
+}
+
+/* Pricing Cards */
+.pricing-card {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.pricing-card:hover {
+  border-color: #007bff;
+  box-shadow: 0 10px 40px rgba(0, 123, 255, 0.1);
+}
+
+.pricing-card.selected {
+  border-color: #007bff;
+  box-shadow: 0 10px 40px rgba(0, 123, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.pricing-card.recommended {
+  border-color: #6610f2;
+}
+
+.pricing-card.recommended:hover,
+.pricing-card.recommended.selected {
+  border-color: #6610f2;
+  box-shadow: 0 10px 40px rgba(102, 16, 242, 0.2);
+}
+
+.recommended-badge {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(45deg, #6610f2, #007bff);
+  color: white;
+  padding: 0.5rem 2rem;
+  border-radius: 0 0 20px 20px;
+  font-weight: bold;
+  font-size: 0.875rem;
+  z-index: 1;
+}
+
+.pricing-card .card-header {
+  background: #f8f9fa;
+  border: none;
+  padding: 2rem 1.5rem;
+}
+
+.pricing-card .card-body {
+  padding: 1.5rem;
+}
+
+.price-display {
+  margin: 1rem 0;
+}
+
+.price-display .currency {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #6c757d;
+  vertical-align: top;
+}
+
+.price-display .price {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.price-display .period {
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.savings-text {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Feature List */
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.feature-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f8f9fa;
+  display: flex;
+  align-items: start;
+}
+
+.feature-list li:last-child {
+  border-bottom: none;
+}
+
+/* Summary Section */
+.summary-section {
+  margin-top: 3rem;
+}
+
+.selected-plan-summary {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.price-summary {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+/* Testimonials */
+.testimonial-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.testimonial-text {
+  font-style: italic;
+  color: #495057;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.testimonial-text::before {
+  content: '"';
+  font-size: 3rem;
+  color: #007bff;
+  position: absolute;
+  top: -1rem;
+  left: -1rem;
+  opacity: 0.3;
+}
+
+.testimonial-author {
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial-author strong {
+  color: #212529;
+  margin-bottom: 0.25rem;
+}
+
+.testimonial-author span {
+  font-size: 0.875rem;
+}
+
+/* Guarantee Section */
+.guarantee-badge {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 3rem;
+  border-radius: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Success Message */
+.alert-success {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 3rem;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button Styles */
+.btn-primary {
+  background: linear-gradient(45deg, #007bff, #6610f2);
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #0056b3, #5208d6);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .subscription-container {
+    padding: 1rem;
+  }
+
+  .price-display .price {
+    font-size: 2.5rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .pricing-card {
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-card {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .subscription-header h1 {
+    font-size: 2rem;
+  }
+
+  .price-display .price {
+    font-size: 2rem;
+  }
+
+  .btn-primary.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Form Check Customization */
+.form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.pricing-card.recommended .form-check-input:checked {
+  background-color: #6610f2;
+  border-color: #6610f2;
+}
+
+/* Animation for processing */
+.fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

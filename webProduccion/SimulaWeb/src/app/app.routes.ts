@@ -53,6 +53,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'suscripcion-freemium',
+    loadComponent: () => import('./components/suscripcion-freemium/suscripcion-freemium.component').then(m => m.SuscripcionFreemiumComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: '/login'
   }

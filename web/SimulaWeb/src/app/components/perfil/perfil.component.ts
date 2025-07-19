@@ -85,4 +85,8 @@ export class PerfilComponent implements OnInit {
         return rol;
     }
   }
+
+  navigateToFreemium(): void {
+    this.router.navigate(['/suscripcion-freemium']);
+  }
 }
