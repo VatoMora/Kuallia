@@ -24,7 +24,7 @@ public class Negocio {
     @Column(nullable = false)
     private String giro;
     
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String fotoBase64;
     
     @Column(nullable = false)
