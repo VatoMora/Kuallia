@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService, Usuario } from '../../core/services/auth.service';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +14,7 @@ import { AuthService, Usuario } from '../../core/services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   currentUser: Usuario | null = null;
   isCollapsed = true;
   private userSubscription: Subscription = new Subscription();
@@ -29,8 +31,36 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit(): void {
+    // Inicializar tooltips de Bootstrap
+    this.initializeTooltips();
+  }
+
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
+    // Destruir tooltips
+    this.destroyTooltips();
+  }
+
+  private initializeTooltips(): void {
+    if (typeof bootstrap !== 'undefined') {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltipTriggerList.forEach(tooltipTriggerEl => {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    }
+  }
+
+  private destroyTooltips(): void {
+    if (typeof bootstrap !== 'undefined') {
+      const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltips.forEach(tooltip => {
+        const instance = bootstrap.Tooltip.getInstance(tooltip);
+        if (instance) {
+          instance.dispose();
+        }
+      });
+    }
   }
 
   toggleNavbar(): void {

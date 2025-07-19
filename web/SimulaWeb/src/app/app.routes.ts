@@ -48,6 +48,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'realidad-virtual',
+    loadComponent: () => import('./components/realidad-virtual/realidad-virtual.component').then(m => m.RealidadVirtualComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: '/login'
   }

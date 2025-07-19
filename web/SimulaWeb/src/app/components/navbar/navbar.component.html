@@ -8,7 +8,15 @@
       <strong>Kuallia</strong>
     </a>
     
-    <button 
+    <!-- Icono de Realidad Virtual -->
+    <a class="vr-nav-link-left ms-3" routerLink="/realidad-virtual" routerLinkActive="active" 
+       aria-label="Ir a Realidad Virtual - Experiencias inmersivas"
+       data-bs-toggle="tooltip" data-bs-placement="bottom" title="Realidad Virtual"
+       *ngIf="isAuthenticated()">
+      <i class="bi bi-headset-vr vr-nav-icon-left"></i>
+    </a>
+    
+    <button
       class="navbar-toggler" 
       type="button" 
       (click)="toggleNavbar()"
@@ -38,6 +46,14 @@
           <a class="nav-link" routerLink="/marketplace" routerLinkActive="active" role="menuitem" aria-label="Ir al Marketplace - Compra y vende entre negocios">
             <i class="bi bi-shop me-1"></i>
             MarketKuallia
+          </a>
+        </li>
+        
+        <li class="nav-item" role="none">
+          <a class="nav-link vr-nav-link" routerLink="/realidad-virtual" routerLinkActive="active" role="menuitem" 
+             aria-label="Ir a Realidad Virtual - Experiencias inmersivas"
+             data-bs-toggle="tooltip" data-bs-placement="bottom" title="Realidad Virtual">
+            <i class="bi bi-headset-vr vr-nav-icon"></i>
           </a>
         </li>
         

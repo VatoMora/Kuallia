@@ -98,6 +98,77 @@
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2844, 62, 80, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
+/* Estilos especiales para el ícono de realidad virtual */
+.vr-nav-link {
+  position: relative;
+  padding: 0.5rem 1rem !important;
+}
+
+.vr-nav-icon {
+  font-size: 1.5rem;
+  background: linear-gradient(45deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 4px rgba(118, 75, 162, 0.4));
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.vr-nav-link:hover .vr-nav-icon {
+  filter: drop-shadow(0 4px 8px rgba(118, 75, 162, 0.6));
+  animation: rotate 0.6s ease-in-out;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.vr-nav-link.active .vr-nav-icon {
+  background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 3px 6px rgba(245, 87, 108, 0.5));
+}
+
+/* Efecto de brillo */
+.vr-nav-link::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(118, 75, 162, 0.3) 0%, transparent 70%);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.vr-nav-link:hover::after {
+  width: 60px;
+  height: 60px;
+}
+
 @media (max-width: 768px) {
   .navbar-nav {
     margin-top: 1rem;
@@ -113,5 +184,9 @@
     width: 100%;
     box-shadow: none;
     border: 1px solid #dee2e6;
+  }
+  
+  .vr-nav-icon {
+    font-size: 1.3rem;
   }
 }
