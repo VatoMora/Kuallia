@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { AuthService, Usuario } from '../../core/services/auth.service';
 
 interface Message {
   text: string;
@@ -21,11 +23,13 @@ interface FAQ {
   templateUrl: './chatbot.component.html',
   styleUrl: './chatbot.component.css'
 })
-export class ChatbotComponent {
+export class ChatbotComponent implements OnInit, OnDestroy {
   isOpen = false;
   messages: Message[] = [];
   userInput = '';
   isTyping = false;
+  currentUser: Usuario | null = null;
+  private userSubscription: Subscription = new Subscription();
 
   faqs: FAQ[] = [
     {
@@ -85,8 +89,24 @@ export class ChatbotComponent {
     }
   ];
 
-  constructor() {
-    this.addMessage('¡Hola Joaquín 🌸! Soy Kuallio 🤖, tu asistente virtual. ¿En qué puedo ayudarte hoy?', false);
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    // Suscribirse a los cambios del usuario autenticado
+    this.userSubscription = this.authService.currentUser.subscribe(user => {
+      this.currentUser = user;
+    });
+    
+    // Mensaje de bienvenida
+    const userName = this.currentUser?.nombre || '';
+    const welcomeMessage = userName 
+      ? `¡Hola ${userName} 🌸! Soy Kuallio 🤖, tu asistente virtual. ¿En qué puedo ayudarte hoy?`
+      : '¡Hola! Soy Kuallio 🤖, tu asistente virtual. ¿En qué puedo ayudarte hoy?';
+    this.addMessage(welcomeMessage, false);
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 
   toggleChat() {
@@ -136,7 +156,9 @@ export class ChatbotComponent {
 
     // Respuestas predeterminadas
     if (message.includes('hola') || message.includes('hi')) {
-      return '¡Hola Joaquín! 🌸 ¿En qué puedo ayudarte? Puedes preguntarme sobre tus ventas, clientes nuevos, tu progreso o cualquier área donde necesites apoyo.';
+      const userName = this.currentUser?.nombre || '';
+      const greeting = userName ? `¡Hola ${userName}!` : '¡Hola!';
+      return `${greeting} 🌸 ¿En qué puedo ayudarte? Puedes preguntarme sobre tus ventas, clientes nuevos, tu progreso o cualquier área donde necesites apoyo.`;
     }
     
     if (message.includes('gracias')) {
