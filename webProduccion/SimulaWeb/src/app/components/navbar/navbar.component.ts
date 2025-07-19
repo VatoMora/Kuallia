@@ -17,6 +17,7 @@ declare var bootstrap: any;
 export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   currentUser: Usuario | null = null;
   isCollapsed = true;
+  showCopiedMessage = false;
   private userSubscription: Subscription = new Subscription();
 
   constructor(
@@ -94,6 +95,47 @@ export class NavbarComponent implements OnInit, OnDestroy, AfterViewInit {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  openInvitationModal(event: Event): void {
+    event.preventDefault();
+    const modalElement = document.getElementById('invitationModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+
+  copyInvitationLink(): void {
+    const invitationUrl = `https://kuallia.com/invitacion/${this.currentUser?.id || 'user'}`;
+    navigator.clipboard.writeText(invitationUrl).then(() => {
+      this.showCopiedMessage = true;
+      setTimeout(() => {
+        this.showCopiedMessage = false;
+      }, 3000);
+    }).catch(err => {
+      console.error('Error al copiar el enlace:', err);
+      alert('No se pudo copiar el enlace. Por favor, inténtalo de nuevo.');
+    });
+  }
+
+  shareInvitation(): void {
+    const invitationUrl = `https://kuallia.com/invitacion/${this.currentUser?.id || 'user'}`;
+    const shareText = `Únete a Kuallia, la plataforma líder en emprendimiento. ¡Crece tu negocio conmigo!`;
+    
+    if (navigator.share) {
+      navigator.share({
+        title: 'Únete a mi Negocio en Kuallia',
+        text: shareText,
+        url: invitationUrl
+      }).catch((error) => {
+        console.log('Error al compartir:', error);
+      });
+    } else {
+      // Fallback para navegadores que no soportan Web Share API
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + invitationUrl)}`;
+      window.open(whatsappUrl, '_blank');
+    }
   }
 
   isAdmin(): boolean {

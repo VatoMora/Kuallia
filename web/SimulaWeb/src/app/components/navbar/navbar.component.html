@@ -8,14 +8,6 @@
       <strong>Kuallia</strong>
     </a>
     
-    <!-- Icono de Realidad Virtual -->
-    <a class="vr-nav-link-left ms-3" routerLink="/realidad-virtual" routerLinkActive="active" 
-       aria-label="Ir a Realidad Virtual - Experiencias inmersivas"
-       data-bs-toggle="tooltip" data-bs-placement="bottom" title="Realidad Virtual"
-       *ngIf="isAuthenticated()">
-      <i class="bi bi-headset-vr vr-nav-icon-left"></i>
-    </a>
-    
     <button
       class="navbar-toggler" 
       type="button" 
@@ -50,10 +42,18 @@
         </li>
         
         <li class="nav-item" role="none">
-          <a class="nav-link vr-nav-link" routerLink="/realidad-virtual" routerLinkActive="active" role="menuitem" 
-             aria-label="Ir a Realidad Virtual - Experiencias inmersivas"
-             data-bs-toggle="tooltip" data-bs-placement="bottom" title="Realidad Virtual">
-            <i class="bi bi-headset-vr vr-nav-icon"></i>
+          <a class="nav-link" routerLink="/realidad-virtual" routerLinkActive="active" role="menuitem" 
+             aria-label="Ir a Realidad Virtual - Experiencias inmersivas">
+            <i class="bi bi-headset-vr vr-nav-icon me-1"></i>
+            Realidad Virtual
+          </a>
+        </li>
+        
+        <li class="nav-item" role="none">
+          <a class="nav-link" href="#" (click)="openInvitationModal($event)" role="menuitem" 
+             aria-label="Generar link de invitación">
+            <i class="bi bi-link-45deg me-1"></i>
+            Link de invitación
           </a>
         </li>
         
@@ -98,3 +98,90 @@
     </div>
   </div>
 </nav>
+
+<!-- Modal de Invitación -->
+<div class="modal fade" id="invitationModal" tabindex="-1" aria-labelledby="invitationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content invitation-modal">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center p-5">
+        <div class="invitation-card">
+          <div class="card-header-gradient">
+            <h2 class="modal-title mb-0" id="invitationModalLabel">
+              <i class="bi bi-briefcase-fill me-2"></i>
+              Únete a mi Negocio
+            </h2>
+          </div>
+          
+          <div class="user-info-section mt-4">
+            <div class="user-avatar-large mb-3">
+              {{ getInitials() }}
+            </div>
+            <h3 class="user-name">{{ currentUser?.nombre }}</h3>
+            <p class="user-role text-muted">{{ currentUser?.rol }}</p>
+          </div>
+          
+          <div class="qr-section my-4">
+            <div class="qr-container">
+              <img src="assets/images/qr-codeKwallia.png" 
+                   alt="Código QR para unirse al negocio" 
+                   class="qr-code">
+              <div class="qr-overlay">
+                <i class="bi bi-qr-code-scan"></i>
+              </div>
+            </div>
+            <p class="qr-instruction mt-3">
+              <i class="bi bi-phone me-2"></i>
+              Escanea este código con tu teléfono
+            </p>
+          </div>
+          
+          <div class="invitation-text">
+            <p class="lead">
+              Te invito a formar parte de <strong>Kuallia</strong>, 
+              la plataforma líder en emprendimiento y negocios virtuales.
+            </p>
+            <div class="benefits-grid mt-4">
+              <div class="benefit-item">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span>Crece tu negocio</span>
+              </div>
+              <div class="benefit-item">
+                <i class="bi bi-people-fill"></i>
+                <span>Red de contactos</span>
+              </div>
+              <div class="benefit-item">
+                <i class="bi bi-lightbulb-fill"></i>
+                <span>Aprende y emprende</span>
+              </div>
+              <div class="benefit-item">
+                <i class="bi bi-headset-vr"></i>
+                <span>Realidad Virtual</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="action-buttons mt-4">
+            <button type="button" class="btn btn-primary btn-lg" (click)="copyInvitationLink()">
+              <i class="bi bi-clipboard me-2"></i>
+              Copiar Link de Invitación
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-lg ms-2" (click)="shareInvitation()">
+              <i class="bi bi-share me-2"></i>
+              Compartir
+            </button>
+          </div>
+          
+          <div class="invitation-link-display mt-3" *ngIf="showCopiedMessage">
+            <div class="alert alert-success" role="alert">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              ¡Link copiado al portapapeles!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
