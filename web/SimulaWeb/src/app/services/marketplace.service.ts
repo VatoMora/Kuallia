@@ -17,7 +17,7 @@ export class MarketplaceService {
       descripcion: 'Kit completo con cuadernos, lápices, plumas, colores y más. Ideal para estudiantes.',
       precio: 299.99,
       categoria: 'papeleria',
-      imagen: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=400',
+      imagen: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400',
       vendedor: {
         id: 'v1',
         nombre: 'Papelería El Estudiante',
@@ -40,7 +40,7 @@ export class MarketplaceService {
       descripcion: 'Papel bond de alta calidad, ideal para impresiones y copias.',
       precio: 89.50,
       categoria: 'papeleria',
-      imagen: 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=400',
+      imagen: 'https://images.unsplash.com/photo-1586281010691-f9da4be5b1f7?w=400',
       vendedor: {
         id: 'v1',
         nombre: 'Papelería El Estudiante',
@@ -64,7 +64,7 @@ export class MarketplaceService {
       descripcion: 'Set completo de tijeras profesionales, peines y accesorios para estilistas.',
       precio: 1599.99,
       categoria: 'peluqueria',
-      imagen: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=400',
+      imagen: 'https://images.unsplash.com/photo-1559599101-f09722fb4948?w=400',
       vendedor: {
         id: 'v2',
         nombre: 'Beauty Pro Supplies',
@@ -87,7 +87,7 @@ export class MarketplaceService {
       descripcion: 'Secadora de pelo profesional con tecnología iónica y 3 niveles de temperatura.',
       precio: 899.00,
       categoria: 'peluqueria',
-      imagen: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=400',
+      imagen: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400',
       vendedor: {
         id: 'v2',
         nombre: 'Beauty Pro Supplies',
@@ -158,7 +158,7 @@ export class MarketplaceService {
       descripcion: 'Taladro percutor inalámbrico con 2 baterías y maletín de accesorios.',
       precio: 1499.99,
       categoria: 'ferreteria',
-      imagen: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400',
+      imagen: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400',
       vendedor: {
         id: 'v4',
         nombre: 'Ferretería Industrial',
@@ -181,7 +181,7 @@ export class MarketplaceService {
       descripcion: 'Juego de 12 llaves combinadas de acero cromo-vanadio, medidas de 8mm a 19mm.',
       precio: 599.00,
       categoria: 'ferreteria',
-      imagen: 'https://images.unsplash.com/photo-1609205807107-454f1c68bc96?w=400',
+      imagen: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=400',
       vendedor: {
         id: 'v4',
         nombre: 'Ferretería Industrial',
@@ -199,28 +199,6 @@ export class MarketplaceService {
     },
 
     // Productos de Floristería
-    {
-      id: '9',
-      nombre: 'Arreglo Floral Premium',
-      descripcion: 'Hermoso arreglo con rosas, lilies y flores de temporada en base de cerámica.',
-      precio: 899.99,
-      categoria: 'floristeria',
-      imagen: 'https://images.unsplash.com/photo-1567696911980-2c669aad3e50?w=400',
-      vendedor: {
-        id: 'v5',
-        nombre: 'Flores del Valle',
-        tipoNegocio: 'Floristería',
-        calificacion: 4.9,
-        ubicacion: 'Coyoacán, CDMX'
-      },
-      stock: 8,
-      caracteristicas: ['25-30 flores', 'Base de cerámica incluida', 'Tarjeta personalizada', 'Duración 7-10 días'],
-      fechaPublicacion: new Date('2024-01-21'),
-      estadoProducto: 'nuevo',
-      envioDisponible: true,
-      tiempoEntrega: 'Mismo día',
-      etiquetas: ['regalo', 'premium', 'aniversario']
-    },
     {
       id: '10',
       nombre: 'Kit de Jardinería Interior',
@@ -280,7 +258,7 @@ export class MarketplaceService {
       nombre: 'Floristería',
       icono: 'local_florist',
       descripcion: 'Flores, plantas y arreglos',
-      productosCantidad: 2
+      productosCantidad: 1
     }
   ];
 

@@ -62,11 +62,31 @@ export class ChatbotComponent {
       question: '¿Hay soporte disponible?',
       answer: 'Sí, ofrecemos soporte 24/7. Puedes contactarnos a través de este chat o enviar un correo a soporte[at]kuallia.com',
       keywords: ['soporte', 'ayuda', 'contacto', 'correo']
+    },
+    {
+      question: '¿Cuánto vendiste esta semana?',
+      answer: '🎉 ¡Muy bien! Vas mejorando. Si vendiste menos de $500, no te preocupes, todos empezamos desde abajo 💪. Si vendiste entre $500 y $1000, excelente progreso. Y si vendiste más de $1000, ¡eres una estrella! 🌟',
+      keywords: ['vendiste', 'venta', 'semana', 'cuanto']
+    },
+    {
+      question: '¿Cuántos clientes nuevos conseguiste?',
+      answer: '👏 Cada cliente cuenta. Si aún no has conseguido clientes nuevos, no te desanimes, llegarán pronto 🌱. Si conseguiste entre 1 y 5, ¡buen trabajo! Y si conseguiste más de 5, ¡tu red está creciendo rápido! 🚀',
+      keywords: ['clientes', 'nuevos', 'conseguiste', 'cuantos']
+    },
+    {
+      question: '¿Cómo te sientes con tu progreso?',
+      answer: '🤗 Es importante reconocer tus emociones. Si te sientes frustrada, es normal, ¡mañana será un mejor día! Si estás motivada, ¡esa es la actitud! 💯 Y si te sientes satisfecha, me alegra mucho, tu esfuerzo está dando frutos 🎊',
+      keywords: ['sientes', 'progreso', 'frustrada', 'motivada', 'satisfecha']
+    },
+    {
+      question: '¿En qué área necesitas más apoyo?',
+      answer: 'Te puedo ayudar en diferentes áreas: 💼 Si necesitas apoyo en ventas, te prepararé tips especiales. 📱 Si es en marketing, tengo estrategias perfectas para ti. 💰 Y si necesitas ayuda con finanzas, te guiaré para mejorar tu gestión financiera.',
+      keywords: ['apoyo', 'area', 'ventas', 'marketing', 'finanzas', 'ayuda']
     }
   ];
 
   constructor() {
-    this.addMessage('¡Hola! Soy Kuallio 🤖, tu asistente virtual. ¿En qué puedo ayudarte hoy?', false);
+    this.addMessage('¡Hola Marta 🌸! Soy Kuallio 🤖, tu asistente virtual. ¿En qué puedo ayudarte hoy?', false);
   }
 
   toggleChat() {
@@ -116,7 +136,7 @@ export class ChatbotComponent {
 
     // Respuestas predeterminadas
     if (message.includes('hola') || message.includes('hi')) {
-      return '¡Hola! ¿En qué puedo ayudarte? Puedes preguntarme sobre Simula, cómo registrar tu negocio, los retos disponibles y más.';
+      return '¡Hola Marta! 🌸 ¿En qué puedo ayudarte? Puedes preguntarme sobre tus ventas, clientes nuevos, tu progreso o cualquier área donde necesites apoyo.';
     }
     
     if (message.includes('gracias')) {
