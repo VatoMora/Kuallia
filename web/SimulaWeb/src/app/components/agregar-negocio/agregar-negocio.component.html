@@ -44,25 +44,26 @@
                 </div>
 
                 <!-- Giro del negocio -->
-                <div class="col-md-6 mb-3">
-                  <label for="giro" class="form-label">
-                    <i class="fas fa-industry me-2" aria-hidden="true"></i>
-                    Giro del Negocio *
-                  </label>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    id="giro" 
-                    formControlName="giro"
-                    [class.is-invalid]="isFieldInvalid('giro')"
-                    [attr.aria-describedby]="isFieldInvalid('giro') ? 'giro-error' : null"
-                    placeholder="Ej: Ropa y Accesorios"
-                    required
-                    aria-required="true">
-                  <div id="giro-error" class="invalid-feedback" *ngIf="isFieldInvalid('giro')" role="alert">
-                    {{ getFieldError('giro') }}
-                  </div>
-                </div>
+<div class="col-md-6 mb-3">
+  <label for="giro" class="form-label">
+    <i class="fas fa-industry me-2" aria-hidden="true"></i>
+    Giro del Negocio *
+  </label>
+  <select 
+    class="form-control" 
+    id="giro" 
+    formControlName="giro"
+    [class.is-invalid]="isFieldInvalid('giro')"
+    [attr.aria-describedby]="isFieldInvalid('giro') ? 'giro-error' : null"
+    required
+    aria-required="true">
+    <option value="" disabled selected>Selecciona un giro</option>
+    <option *ngFor="let giro of girosNegocio" [value]="giro">{{ giro }}</option>
+  </select>
+  <div id="giro-error" class="invalid-feedback" *ngIf="isFieldInvalid('giro')" role="alert">
+    {{ getFieldError('giro') }}
+  </div>
+</div>
 
                 <!-- Foto del negocio -->
                 <div class="col-12 mb-3">

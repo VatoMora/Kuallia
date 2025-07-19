@@ -19,6 +19,30 @@ export class AgregarNegocioComponent implements OnInit {
   usuarioId: number = 1; // Se obtendrá del AuthService
   selectedFile: File | null = null;
   imagePreview: string | null = null;
+  
+  // Lista de giros de negocio más comunes
+  girosNegocio: string[] = [
+    'Abarrotes y Minisuper',
+    'Restaurante y Comida',
+    'Ropa y Accesorios',
+    'Farmacia',
+    'Papelería y Oficina',
+    'Ferretería',
+    'Panadería y Repostería',
+    'Carnicería',
+    'Verdulería y Frutas',
+    'Salón de Belleza',
+    'Barbería',
+    'Tienda de Regalos',
+    'Cafetería',
+    'Tortillería',
+    'Lavandería',
+    'Taller Mecánico',
+    'Tienda de Electrónicos',
+    'Zapatería',
+    'Gimnasio',
+    'Veterinaria'
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +52,7 @@ export class AgregarNegocioComponent implements OnInit {
   ) {
     this.negocioForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
-      giro: ['', [Validators.required, Validators.minLength(3)]],
+      giro: ['', [Validators.required]],
       foto: [null]
     });
   }
@@ -145,6 +169,9 @@ export class AgregarNegocioComponent implements OnInit {
     const field = this.negocioForm.get(fieldName);
     if (field && field.errors) {
       if (field.errors['required']) {
+        if (fieldName === 'giro') {
+          return 'Por favor selecciona un giro de negocio';
+        }
         return `${fieldName} es requerido`;
       }
       if (field.errors['minlength']) {
